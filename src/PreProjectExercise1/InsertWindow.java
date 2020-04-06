@@ -7,19 +7,50 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.Font;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * @author Haseeb Khan and Muhammad Tariq
+ * @since April 5, 2020
+ * @version 3.0
+ * 
+ *          This class is responsible for creating the window that pops up once
+ *          a user presses the "Insert" button. It handles any required response
+ *          as well.
+ * 
+ */
 public class InsertWindow extends JFrame {
-
+	/**
+	 * This is the main window of this class
+	 */
 	private JPanel contentPane;
+	/**
+	 * This is the text field that allows the user to enter a student ID
+	 */
 	private JTextField textField; // STUDENT ID
+	/**
+	 * This is the text field that allows the user to enter a faculty
+	 */
 	private JTextField textField_1; // FACULTY
+	/**
+	 * This is the text field that allows the user to enter a major
+	 */
 	private JTextField textField_2; // MAJOR
+	/**
+	 * This is the text field that allows the user to enter a year
+	 */
 	private JTextField textField_3; // YEAR
+	/**
+	 * This member variable is the Binary Search Tree that will hold student records
+	 */
 	private BinSearchTree theTree;
+	private DefaultListModel<String> theList;
+
 
 	/**
 	 * Launch the application.
@@ -28,7 +59,7 @@ public class InsertWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InsertWindow frame = new InsertWindow(theTree);
+					InsertWindow frame = new InsertWindow(theTree, theList);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,8 +71,9 @@ public class InsertWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InsertWindow(BinSearchTree theTree) {
+	public InsertWindow(BinSearchTree theTree, DefaultListModel<String> theList) {
 		this.theTree = theTree;
+		this.theList = theList;
 		setTitle("Insert New Student Record");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 563, 182);
@@ -98,17 +130,22 @@ public class InsertWindow extends JFrame {
 
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { 
+			public void actionPerformed(ActionEvent e) {
 				theTree.insert(getId(), getFaculty(), getMajor(), getYear());
+				try {
+					theList.clear();
+					theTree.populateListWithTree(theTree.root, theList);
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
 				dispose();
 				try {
 					theTree.print_tree(theTree.root);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-//				public void insert(String id, String faculty, String major, String year) {
-
+				revalidate();
+				repaint();
 			}
 		});
 		btnNewButton.setBounds(302, 114, 89, 23);

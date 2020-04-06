@@ -7,19 +7,40 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
-
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * 
+ * @author Haseeb Khan and Muhammad Tariq
+ * @since April 5, 2020
+ * @version 3.0
+ * 
+ *          This class is responsible for creating the window that pops up once
+ *          a user presses the "Create Tree from File" button. It handles any
+ *          required response as well.
+ * 
+ */
 public class CreateTreeWindow extends JFrame {
-
+	/**
+	 * This is the main window of this class
+	 */
 	private JPanel contentPane;
+	/**
+	 * This is the text field that allows the user to enter the file name
+	 */
 	private JTextField textField;
+	/**
+	 * This member variable is the Binary Search Tree that will hold student records
+	 */
 	private BinSearchTree theTree;
+	private DefaultListModel<String> theList;
 
 	/**
 	 * Launch the application.
@@ -28,7 +49,7 @@ public class CreateTreeWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateTreeWindow frame = new CreateTreeWindow(theTree);
+					CreateTreeWindow frame = new CreateTreeWindow(theTree, theList);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,9 +60,12 @@ public class CreateTreeWindow extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param theList
 	 */
-	public CreateTreeWindow(BinSearchTree theTree) {
+	public CreateTreeWindow(BinSearchTree theTree, DefaultListModel<String> theList) {
 		this.theTree = theTree;
+		this.theList = theList;
 		setTitle("Choose file to import data");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 563, 182);
@@ -68,6 +92,7 @@ public class CreateTreeWindow extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				theList.clear();
 				try {
 					Scanner textFileIn = new Scanner(new FileInputStream(textField.getText()));
 					while (textFileIn.hasNextLine()) {
@@ -77,12 +102,14 @@ public class CreateTreeWindow extends JFrame {
 
 					try {
 						theTree.print_tree(theTree.root);
+						theTree.populateListWithTree(theTree.root, theList);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "\nError! Unable to find the file: " + textField.getText(),
+							" Warning", JOptionPane.PLAIN_MESSAGE);
 					e1.printStackTrace();
 				}
 

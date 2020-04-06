@@ -145,14 +145,31 @@ class BinSearchTree {
 //	public void print_tree(Node cur, PrintWriter out) throws IOException {
 	public void print_tree(Node cur) throws IOException {
 		if (cur.left != null)
-//			print_tree(cur.left, out);
 			print_tree(cur.left);
 		String s = cur.data.id + "        " + cur.data.faculty + "     " + cur.data.major + "       " + cur.data.year
 				+ "\n";
-//		out.println(s);
 		System.out.print(s);
 		if (cur.right != null)
 			print_tree(cur.right);
-//			print_tree(cur.right, out);
+	}
+
+	/**
+	 * Function that recursively populates DefaultListModel list which is used to
+	 * display a scrollable list when the user presses the Browse button after
+	 * choosing a file. This method is called when a successful insertion is made
+	 * as well.
+	 * 
+	 * @param cur
+	 * @param theList
+	 * @throws IOException
+	 */
+	public void populateListWithTree(Node cur, DefaultListModel<String> theList) throws IOException {
+		if (cur.left != null)
+			populateListWithTree(cur.left, theList);
+		String s = cur.data.id + "        " + cur.data.faculty + "     " + cur.data.major + "       " + cur.data.year
+				+ "\n";
+		theList.addElement(s);
+		if (cur.right != null)
+			populateListWithTree(cur.right, theList);
 	}
 }

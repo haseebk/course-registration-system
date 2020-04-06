@@ -1,7 +1,6 @@
 package PreProjectExercise1;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,17 +10,36 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * @author Haseeb Khan and Muhammad Tariq
+ * @since April 5, 2020
+ * @version 3.0
+ * 
+ *          This class is responsible for creating the window that pops up once
+ *          a user presses the "Find" button. It handles any required response
+ *          as well.
+ * 
+ */
 public class FindWindow extends JFrame {
-
+	/**
+	 * This is the main window of this class
+	 */
 	private JPanel contentPane;
+	/**
+	 * This is the text field that allows the user to enter a student ID
+	 */
 	private JTextField textField;
+	/**
+	 * This member variable is the Binary Search Tree that will hold student records
+	 */
 	private BinSearchTree theTree;
 
 	/**
 	 * Launch the application.
 	 */
 	public void findWindow() {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -36,11 +54,12 @@ public class FindWindow extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param theTree 
+	 * 
+	 * @param theTree
 	 */
 	public FindWindow(BinSearchTree theTree) {
 		this.theTree = theTree;
-		
+
 		setTitle("Find a Student");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 563, 182);
@@ -71,7 +90,15 @@ public class FindWindow extends JFrame {
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Node result = theTree.find(theTree.root, textField.getText());
+				if (result == null) {
+					System.out.println("Not found");
+					dispose();
+				} else {
+					System.out.println("here is ur result: " + result.data);
+					dispose();
+				}
+
 			}
 		});
 		btnNewButton_1.setBounds(302, 90, 89, 23);
