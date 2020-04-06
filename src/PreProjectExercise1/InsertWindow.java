@@ -49,8 +49,11 @@ public class InsertWindow extends JFrame {
 	 * This member variable is the Binary Search Tree that will hold student records
 	 */
 	private BinSearchTree theTree;
+	/**
+	 * This member variable is the list that holds generic student records (in
+	 * String form) which will be used to display the browser panel
+	 */
 	private DefaultListModel<String> theList;
-
 
 	/**
 	 * Launch the application.
@@ -132,18 +135,9 @@ public class InsertWindow extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				theTree.insert(getId(), getFaculty(), getMajor(), getYear());
-				try {
-					theList.clear();
-					theTree.populateListWithTree(theTree.root, theList);
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
+				theList.clear();
+				theTree.populateListWithTree(theTree.root, theList);
 				dispose();
-				try {
-					theTree.print_tree(theTree.root);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 				revalidate();
 				repaint();
 			}

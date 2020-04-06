@@ -11,7 +11,7 @@ import javax.swing.*;
 class BinSearchTree {
 
 	Node root;
-
+	DefaultListModel<String> theList;
 	/* the following constructor creates an empty tree. */
 	public BinSearchTree() {
 		root = null;
@@ -148,22 +148,21 @@ class BinSearchTree {
 			print_tree(cur.left);
 		String s = cur.data.id + "        " + cur.data.faculty + "     " + cur.data.major + "       " + cur.data.year
 				+ "\n";
-		System.out.print(s);
+//		System.out.print(s);
 		if (cur.right != null)
 			print_tree(cur.right);
 	}
 
 	/**
 	 * Function that recursively populates DefaultListModel list which is used to
-	 * display a scrollable list when the user presses the Browse button after
+	 * display a scroll-able list when the user presses the Browse button after
 	 * choosing a file. This method is called when a successful insertion is made
 	 * as well.
 	 * 
-	 * @param cur
-	 * @param theList
-	 * @throws IOException
+	 * @param cur - current node
+	 * @param theList - the list that is being populated for browser display panel
 	 */
-	public void populateListWithTree(Node cur, DefaultListModel<String> theList) throws IOException {
+	public void populateListWithTree(Node cur, DefaultListModel<String> theList) {
 		if (cur.left != null)
 			populateListWithTree(cur.left, theList);
 		String s = cur.data.id + "        " + cur.data.faculty + "     " + cur.data.major + "       " + cur.data.year

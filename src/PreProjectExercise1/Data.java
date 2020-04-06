@@ -18,6 +18,6 @@ public class Data {
 	}
 
 	public String toString() {
-		return ("id : " + id + " faculty: " + faculty + " major: " + major + " year: " + year);
+		return ("ID: " + id + " Faculty: " + faculty + " Major: " + major + " Year: " + year);
 	}
 }

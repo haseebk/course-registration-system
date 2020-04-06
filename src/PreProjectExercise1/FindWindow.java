@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -92,13 +93,14 @@ public class FindWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Node result = theTree.find(theTree.root, textField.getText());
 				if (result == null) {
-					System.out.println("Not found");
-					dispose();
+					JOptionPane.showMessageDialog(null, "\nError! No records with that Student ID were found!",
+							" Warning", JOptionPane.PLAIN_MESSAGE);
 				} else {
-					System.out.println("here is ur result: " + result.data);
-					dispose();
+					JOptionPane.showMessageDialog(null,
+							"Student ID: " + result.data.id + "\nFaculty: " + result.data.faculty + "\nMajor: "
+									+ result.data.major + "\nYear: " + result.data.year,
+							" Result", JOptionPane.INFORMATION_MESSAGE);
 				}
-
 			}
 		});
 		btnNewButton_1.setBounds(302, 90, 89, 23);

@@ -40,6 +40,10 @@ public class CreateTreeWindow extends JFrame {
 	 * This member variable is the Binary Search Tree that will hold student records
 	 */
 	private BinSearchTree theTree;
+	/**
+	 * This member variable is the list that holds generic student records (in
+	 * String form) which will be used to display the browser panel
+	 */
 	private DefaultListModel<String> theList;
 
 	/**
@@ -97,22 +101,22 @@ public class CreateTreeWindow extends JFrame {
 					Scanner textFileIn = new Scanner(new FileInputStream(textField.getText()));
 					while (textFileIn.hasNextLine()) {
 						theTree.insert(textFileIn.next(), textFileIn.next(), textFileIn.next(), textFileIn.next());
+//						theTree.insert(getId(), getFaculty(), getMajor(), getYear());
+						theList.clear();
+						theTree.populateListWithTree(theTree.root, theList);
 					}
 					textFileIn.close();
-
-					try {
-						theTree.print_tree(theTree.root);
-						theTree.populateListWithTree(theTree.root, theList);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 				} catch (FileNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "\nError! Unable to find the file: " + textField.getText(),
 							" Warning", JOptionPane.PLAIN_MESSAGE);
 					e1.printStackTrace();
 				}
-
+//				try {
+//					theTree.print_tree(theTree.root);
+//					theTree.populateListWithTree(theTree.root, theList);
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
 			}
 		});
 		btnNewButton_1.setBounds(302, 90, 89, 23);

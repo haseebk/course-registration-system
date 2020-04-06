@@ -54,7 +54,10 @@ public class Ex1GUI extends JFrame {
 	 * This member variable is the Binary Search Tree that will hold student records
 	 */
 	private BinSearchTree theTree;
-
+	/**
+	 * This member variable is the list that holds generic student records (in
+	 * String form) which will be used to display the browser panel
+	 */
 	private DefaultListModel<String> theList;
 
 	/**
@@ -122,7 +125,7 @@ public class Ex1GUI extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JList<String> viewList = new JList<String>(theList);
-				browser = new BrowseDisplay(contentPane, viewList);
+				browser = new BrowseDisplay(contentPane, viewList, theTree);
 				revalidate();
 				repaint();
 			}
