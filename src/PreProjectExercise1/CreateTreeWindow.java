@@ -101,7 +101,6 @@ public class CreateTreeWindow extends JFrame {
 					Scanner textFileIn = new Scanner(new FileInputStream(textField.getText()));
 					while (textFileIn.hasNextLine()) {
 						theTree.insert(textFileIn.next(), textFileIn.next(), textFileIn.next(), textFileIn.next());
-//						theTree.insert(getId(), getFaculty(), getMajor(), getYear());
 						theList.clear();
 						theTree.populateListWithTree(theTree.root, theList);
 					}

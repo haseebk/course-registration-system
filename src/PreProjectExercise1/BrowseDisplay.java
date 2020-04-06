@@ -1,5 +1,6 @@
 package PreProjectExercise1;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,8 +35,11 @@ public class BrowseDisplay extends JPanel {
 	public BrowseDisplay(JPanel contentPane, JList<String> theList, BinSearchTree theTree) {
 		this.list = theList;
 		this.theTree = theTree;
+		theList.setFont(new Font("Courier New", Font.BOLD , 15));
+
 		scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(60, 75, 592, 288);
+		
 		scrollPane.setVisible(true);
 		MouseListener mouseListener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
