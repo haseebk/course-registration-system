@@ -1,3 +1,5 @@
+package PreProjectExercise1;
+
 /**
  * Represents data within a node
  */
