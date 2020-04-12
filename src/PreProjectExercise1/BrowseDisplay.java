@@ -35,11 +35,11 @@ public class BrowseDisplay extends JPanel {
 	public BrowseDisplay(JPanel contentPane, JList<String> theList, BinSearchTree theTree) {
 		this.list = theList;
 		this.theTree = theTree;
-		theList.setFont(new Font("Courier New", Font.BOLD , 15));
+		theList.setFont(new Font("Courier New", Font.BOLD, 15));
 
 		scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(60, 75, 592, 288);
-		
+
 		scrollPane.setVisible(true);
 		MouseListener mouseListener = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -49,10 +49,17 @@ public class BrowseDisplay extends JPanel {
 					if (spacePos > 0) {
 						String searchID = selectedItem.substring(0, spacePos);
 						Node result = theTree.find(theTree.root, searchID);
-						JOptionPane.showMessageDialog(null,
-								"Student ID: " + result.data.id + "\nFaculty: " + result.data.faculty + "\nMajor: "
-										+ result.data.major + "\nYear: " + result.data.year,
-								" Result", JOptionPane.INFORMATION_MESSAGE);
+						
+						if (result == null) {
+							JOptionPane.showMessageDialog(null, "\nAn error occurred!",
+									" Warning", JOptionPane.PLAIN_MESSAGE);
+
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"Student ID: " + result.data.id + "\nFaculty: " + result.data.faculty + "\nMajor: "
+											+ result.data.major + "\nYear: " + result.data.year,
+									" Result", JOptionPane.INFORMATION_MESSAGE);
+						}
 					}
 				}
 			}

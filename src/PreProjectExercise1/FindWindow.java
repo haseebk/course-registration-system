@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 /**
@@ -92,6 +93,7 @@ public class FindWindow extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Node result = theTree.find(theTree.root, textField.getText());
+				
 				if (result == null) {
 					JOptionPane.showMessageDialog(null, "\nError! No records with that Student ID were found!",
 							" Warning", JOptionPane.PLAIN_MESSAGE);

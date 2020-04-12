@@ -95,7 +95,6 @@ public class CreateTreeWindow extends JFrame {
 		JButton btnNewButton_1 = new JButton("OK");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				theList.clear();
 				try {
 					Scanner textFileIn = new Scanner(new FileInputStream(textField.getText()));
@@ -104,6 +103,9 @@ public class CreateTreeWindow extends JFrame {
 						theList.clear();
 						theTree.populateListWithTree(theTree.root, theList);
 					}
+//					theTree.insert("00000","MY","TEST","1");
+//					theList.clear();
+//					theTree.populateListWithTree(theTree.root, theList);
 					textFileIn.close();
 				} catch (FileNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "\nError! Unable to find the file: " + textField.getText(),
@@ -116,6 +118,8 @@ public class CreateTreeWindow extends JFrame {
 //				} catch (IOException e1) {
 //					e1.printStackTrace();
 //				}
+				dispose();
+
 			}
 		});
 		btnNewButton_1.setBounds(302, 90, 89, 23);
