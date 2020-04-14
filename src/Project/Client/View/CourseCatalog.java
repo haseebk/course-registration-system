@@ -5,7 +5,12 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import java.awt.Color;
 import java.awt.Cursor;
 
 /**
@@ -35,6 +40,24 @@ public class CourseCatalog extends JPanel {
 			}
 		});
 		add(exitButton);
+		
+		JLabel addCourseButton = new JLabel("");
+		addCourseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "\nThis method will be implemented soon.", " Success",
+						JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
+		addCourseButton.setBounds(824, 668, 152, 50);
+		add(addCourseButton);
+		
+		JList list = new JList();
+		list.setBorder(new LineBorder(Color.RED, 5, true));
+		list.setBounds(399, 148, 568, 480);
+		add(list);
 
 		JLabel backButton = new JLabel("");
 		backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

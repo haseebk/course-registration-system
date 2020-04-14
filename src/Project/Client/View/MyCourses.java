@@ -8,8 +8,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.border.MatteBorder;
 
 /**
  * This class runs the user's Courses panel view. It displays the courses that
@@ -20,6 +24,8 @@ import java.awt.Color;
  *
  */
 public class MyCourses extends JPanel {
+	private JTextField addCourseTextField;
+	private JTextField courseIDTextField;
 
 	/**
 	 * Create the panel.
@@ -37,6 +43,32 @@ public class MyCourses extends JPanel {
 				frame.dispose();
 			}
 		});
+		
+		courseIDTextField = new JTextField();
+		courseIDTextField.setFont(new Font("Arial", Font.PLAIN, 17));
+		courseIDTextField.setColumns(10);
+		courseIDTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
+		courseIDTextField.setBounds(494, 694, 107, 24);
+		add(courseIDTextField);
+		
+		JLabel courseNumLabel = new JLabel("Course ID:");
+		courseNumLabel.setForeground(Color.GRAY);
+		courseNumLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+		courseNumLabel.setBounds(399, 689, 115, 39);
+		add(courseNumLabel);
+		
+		JLabel courseNameLabel = new JLabel("Course Name:");
+		courseNameLabel.setForeground(Color.GRAY);
+		courseNameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+		courseNameLabel.setBounds(399, 650, 115, 39);
+		add(courseNameLabel);
+		
+		addCourseTextField = new JTextField();
+		addCourseTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
+		addCourseTextField.setFont(new Font("Arial", Font.PLAIN, 17));
+		addCourseTextField.setBounds(517, 659, 107, 24);
+		add(addCourseTextField);
+		addCourseTextField.setColumns(10);
 		add(exitButton);
 
 		JLabel backButton = new JLabel("");
@@ -62,12 +94,13 @@ public class MyCourses extends JPanel {
 		addCourseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				JOptionPane.showMessageDialog(null, "\nThis method will be implemented soon.", " Success",
+						JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
-		addCourseButton.setBounds(823, 639, 152, 50);
+		addCourseButton.setBounds(824, 668, 152, 50);
 		add(addCourseButton);
 
 		JLabel myCourseBackground = new JLabel("");
