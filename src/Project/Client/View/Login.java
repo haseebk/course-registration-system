@@ -17,11 +17,30 @@ import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import javax.swing.SwingConstants;
 
+/**
+ * This class runs the Login panel view. It creates username and password fields
+ * for user input, which is then verified with database to confirm login.
+ * 
+ * @author Haseeb Khan, Muhammad Tariq
+ *
+ */
 public class Login extends JPanel {
+	/**
+	 * Username text field for user login input
+	 */
 	private JTextField usernameTextField;
-	private JTextField passwordTextField;
+	/**
+	 * Password text field for user login input
+	 */
 	private JPasswordField passwordField;
+	/**
+	 * Display text label "Password"
+	 */
 	private JLabel passwordLabel;
+	/**
+	 * Display text label "Username"
+	 */
+	private JLabel usernameLabel;
 
 	/**
 	 * Create the panel.
@@ -46,7 +65,7 @@ public class Login extends JPanel {
 		passwordField.setBounds(556, 443, 254, 28);
 		add(passwordField);
 
-		JLabel usernameLabel = new JLabel("Username");
+		usernameLabel = new JLabel("Username");
 		usernameLabel.setForeground(Color.GRAY);
 		usernameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
 		usernameLabel.setBounds(556, 354, 77, 14);
