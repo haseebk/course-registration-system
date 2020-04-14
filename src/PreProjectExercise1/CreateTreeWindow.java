@@ -103,23 +103,13 @@ public class CreateTreeWindow extends JFrame {
 						theList.clear();
 						theTree.populateListWithTree(theTree.root, theList);
 					}
-//					theTree.insert("00000","MY","TEST","1");
-//					theList.clear();
-//					theTree.populateListWithTree(theTree.root, theList);
 					textFileIn.close();
 				} catch (FileNotFoundException e1) {
 					JOptionPane.showMessageDialog(null, "\nError! Unable to find the file: " + textField.getText(),
 							" Warning", JOptionPane.PLAIN_MESSAGE);
 					e1.printStackTrace();
 				}
-//				try {
-//					theTree.print_tree(theTree.root);
-//					theTree.populateListWithTree(theTree.root, theList);
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
-//				}
 				dispose();
-
 			}
 		});
 		btnNewButton_1.setBounds(302, 90, 89, 23);

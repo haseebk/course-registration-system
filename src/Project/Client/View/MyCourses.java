@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import javax.swing.JList;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 /**
  * This class runs the user's Courses panel view. It displays the courses that
@@ -51,11 +54,27 @@ public class MyCourses extends JPanel {
 		backButton.setIcon(new ImageIcon(MyCourses.class.getResource("/backButton.png")));
 		add(backButton);
 
-		JLabel myCourseBackground = new JLabel("");
-		myCourseBackground.setBounds(0, 0, 1366, 768);
-		myCourseBackground.setIcon(new ImageIcon(Login.class.getResource("/loginBackground.png")));
-		add(myCourseBackground);
+		JList list = new JList();
+		list.setBorder(new LineBorder(Color.RED, 5, true));
+		list.setBounds(399, 148, 568, 480);
+		add(list);
+
+		JLabel addCourseButton = new JLabel("");
+		addCourseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
+		addCourseButton.setBounds(823, 639, 152, 50);
+		add(addCourseButton);
+		
+				JLabel myCourseBackground = new JLabel("");
+				myCourseBackground.setBounds(0, 0, 1366, 768);
+				myCourseBackground.setIcon(new ImageIcon(Login.class.getResource("/loginBackground.png")));
+				add(myCourseBackground);
 
 	}
-
 }

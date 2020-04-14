@@ -91,8 +91,8 @@ public class Login extends JPanel {
 		submitLoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (usernameTextField.getText().compareTo("admin") == 0
-						&& String.valueOf(passwordField.getPassword()).compareTo("admin") == 0) {
+				if (usernameTextField.getText().compareTo("test") == 0
+						&& String.valueOf(passwordField.getPassword()).compareTo("test") == 0) {
 					invalidLoginErrorLabel.setVisible(false);
 					StandardUserHome stdUserHomePanel = new StandardUserHome(frame);
 					frame.setContentPane(stdUserHomePanel);
