@@ -7,9 +7,7 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.SwingConstants;
+
 
 /**
  * This class runs the User Home Page panel view. It allows the user to view

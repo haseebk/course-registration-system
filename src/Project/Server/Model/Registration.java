@@ -2,69 +2,65 @@ package Project.Server.Model;
 
 public class Registration {
 
-    private Student theStudent;
-    private CourseOffering theOffering;
-    private char grade;
-    
-    //new
-    void completeRegistration(Student st, CourseOffering of) {
-        theStudent = st;
-        theOffering = of;
-        addRegistration();
-    }
-    
-    void completeRemoval(Student st, CourseOffering of) {
-        theStudent = st;
-        theOffering = of;
-        removeRegistration();
-    }
+	private Student theStudent;
+	private CourseOffering theOffering;
+	private char grade;
 
-    //public Registration() {
-    //}
-    
-    public void addRegistration() {
-        theStudent.addRegistration(this);
-        theOffering.addRegistration(this);
-    }
+	void completeRegistration(Student st, CourseOffering of) {
+		theStudent = st;
+		theOffering = of;
+		addRegistration();
+	}
 
-    public void removeRegistration() {
-        theStudent.removeRegistration(this);
-        theOffering.removeRegistration(this);
-    }
+	void completeRemoval(Student st, CourseOffering of) {
+		theStudent = st;
+		theOffering = of;
+		removeRegistration();
+	}
 
-    public Student getTheStudent() {
-        return theStudent;
-    }
+	public void addRegistration() {
+		theStudent.addRegistration(this);
+		theOffering.addRegistration(this);
+	}
 
-    public char getGrade() {
-        return grade;
-    }
+	public void removeRegistration() {
+		theStudent.removeRegistration(this);
+		theOffering.removeRegistration(this);
+	}
 
-    public void setGrade(char grade) {
-        this.grade = grade;
-    }
+	public Student getTheStudent() {
+		return theStudent;
+	}
 
-    public CourseOffering getTheOffering() {
-        return theOffering;
-    }
+	public char getGrade() {
+		return grade;
+	}
 
-    public void setTheOffering(CourseOffering theOffering) {
-        this.theOffering = theOffering;
-    }
+	public void setGrade(char grade) {
+		this.grade = grade;
+	}
 
-    public void setTheStudent(Student theStudent) {
-        this.theStudent = theStudent;
-    }
+	public CourseOffering getTheOffering() {
+		return theOffering;
+	}
 
-    //new
-    @Override
-	public String toString () {
+	public void setTheOffering(CourseOffering theOffering) {
+		this.theOffering = theOffering;
+	}
+
+	public void setTheStudent(Student theStudent) {
+		this.theStudent = theStudent;
+	}
+
+	// new
+	@Override
+	public String toString() {
 		String st = "\n";
 		st += "Student Name: " + getTheStudent() + "\n";
-		st += "The Offering: " + getTheOffering () + "\n";
+		st += "The Offering: " + getTheOffering() + "\n";
 		st += "Grade: " + getGrade();
 		st += "\n-----------\n";
 		return st;
-		
+
 	}
 }

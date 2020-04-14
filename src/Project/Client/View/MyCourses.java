@@ -4,7 +4,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
@@ -63,18 +62,18 @@ public class MyCourses extends JPanel {
 		addCourseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 		});
 		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
 		addCourseButton.setBounds(823, 639, 152, 50);
 		add(addCourseButton);
-		
-				JLabel myCourseBackground = new JLabel("");
-				myCourseBackground.setBounds(0, 0, 1366, 768);
-				myCourseBackground.setIcon(new ImageIcon(Login.class.getResource("/loginBackground.png")));
-				add(myCourseBackground);
+
+		JLabel myCourseBackground = new JLabel("");
+		myCourseBackground.setBounds(0, 0, 1366, 768);
+		myCourseBackground.setIcon(new ImageIcon(Login.class.getResource("/loginBackground.png")));
+		add(myCourseBackground);
 
 	}
 }
