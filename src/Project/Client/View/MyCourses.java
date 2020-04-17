@@ -1,5 +1,6 @@
 package Project.Client.View;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,15 +25,21 @@ import javax.swing.border.MatteBorder;
  *
  */
 public class MyCourses extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField addCourseTextField;
 	private JTextField courseIDTextField;
 
 	/**
 	 * Create the panel.
+	 * @param theList 
 	 */
-	public MyCourses(JFrame frame) {
-		setLayout(null);
+	public MyCourses(JFrame frame, DefaultListModel<String> theList) {
 
+//	public MyCourses(JFrame frame, StandardUserHome homePanel, DefaultListModel<String> theList) {
+		setLayout(null);
 		JLabel exitButton = new JLabel("");
 		exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitButton.setBounds(1286, 30, 50, 50);
@@ -76,8 +83,8 @@ public class MyCourses extends JPanel {
 		backButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StandardUserHome stdUserHomePanel = new StandardUserHome(frame);
-				frame.setContentPane(stdUserHomePanel);
+				StandardUserHome homePanel = new StandardUserHome(frame, null, null, theList);
+				frame.setContentPane(homePanel);
 				frame.revalidate();
 			}
 		});

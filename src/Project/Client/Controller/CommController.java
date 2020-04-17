@@ -2,16 +2,22 @@ package Project.Client.Controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import Project.Server.Model.Backend;
 
 public class CommController {
     private PrintWriter socketOut;
 	private Socket aSocket;
 	private BufferedReader stdIn;
 	private BufferedReader socketIn;
+	private InputStream oInputStream;
+	private ObjectInputStream objectInputStream;
 
 	public CommController(String serverName, int portNumber) {
 		try {
@@ -19,6 +25,14 @@ public class CommController {
 			stdIn = new BufferedReader(new InputStreamReader(System.in));
 			socketIn = new BufferedReader(new InputStreamReader(aSocket.getInputStream()));
 			socketOut = new PrintWriter((aSocket.getOutputStream()), true);
+	        
+			oInputStream = aSocket.getInputStream();
+	        setObjectInputStream(new ObjectInputStream(getoInputStream()));
+
+//	        ObjectInputStream objectInputStream = new ObjectInputStream(oInputStream);
+
+
+
 		} catch (IOException e) {
 			System.err.println(e.getStackTrace());
 		}
@@ -27,8 +41,10 @@ public class CommController {
 	public void communicate(String message)  {
 		socketOut.println(message);
 	}
-
-	public String reciveRawInput() {
+	
+	
+		
+	public String recieveRawInput() {
 		try {
 			return socketIn.readLine().replace('_', '\n');
 		} catch (IOException e) {
@@ -66,6 +82,22 @@ public class CommController {
 				System.err.println("");
 			}
 		}
+	}
+
+	public InputStream getoInputStream() {
+		return oInputStream;
+	}
+
+	public void setoInputStream(InputStream oInputStream) {
+		this.oInputStream = oInputStream;
+	}
+
+	public ObjectInputStream getObjectInputStream() {
+		return objectInputStream;
+	}
+
+	public void setObjectInputStream(ObjectInputStream objectInputStream) {
+		this.objectInputStream = objectInputStream;
 	}
 
 }

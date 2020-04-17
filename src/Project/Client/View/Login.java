@@ -2,16 +2,15 @@ package Project.Client.View;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.Color;
-import javax.swing.UIManager;
 import javax.swing.JPasswordField;
 import javax.swing.border.MatteBorder;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
@@ -25,6 +24,10 @@ import javax.swing.SwingConstants;
  *
  */
 public class Login extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Username text field for user login input
 	 */
@@ -41,13 +44,15 @@ public class Login extends JPanel {
 	 * Display text label "Username"
 	 */
 	private JLabel usernameLabel;
+	JLabel submitLoginButton;
 
 	/**
 	 * Create the panel.
+	 * 
+	 * @param homePanel
 	 */
-	public Login(JFrame frame) {
+	public Login(JFrame frame, StandardUserHome homePanel, DefaultListModel<String> theList) {
 		setLayout(null);
-
 		usernameTextField = new JTextField();
 		usernameTextField.setFont(new Font("Arial", Font.PLAIN, 13));
 		usernameTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
@@ -86,7 +91,7 @@ public class Login extends JPanel {
 		invalidLoginErrorLabel.setVisible(false);
 		add(invalidLoginErrorLabel);
 
-		JLabel submitLoginButton = new JLabel("");
+		submitLoginButton = new JLabel("");
 		submitLoginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		submitLoginButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -94,9 +99,10 @@ public class Login extends JPanel {
 				if (usernameTextField.getText().compareTo("test") == 0
 						&& String.valueOf(passwordField.getPassword()).compareTo("test") == 0) {
 					invalidLoginErrorLabel.setVisible(false);
-					StandardUserHome stdUserHomePanel = new StandardUserHome(frame);
-					frame.setContentPane(stdUserHomePanel);
+//					StandardUserHome stdUserHomePanel = new StandardUserHome(frame);
+					frame.setContentPane(homePanel);
 				} else {
+
 					invalidLoginErrorLabel.setVisible(true);
 				}
 				frame.revalidate();

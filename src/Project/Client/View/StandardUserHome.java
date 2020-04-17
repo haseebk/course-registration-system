@@ -1,13 +1,16 @@
 package Project.Client.View;
 
 import javax.swing.JPanel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
-
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * This class runs the User Home Page panel view. It allows the user to view
@@ -19,11 +22,21 @@ import java.awt.Cursor;
 public class StandardUserHome extends JPanel {
 
 	/**
-	 * Create the panel.
+	 * 
 	 */
-	public StandardUserHome(JFrame frame) {
-		setLayout(null);
+	private static final long serialVersionUID = 1L;
+	public JLabel viewCoursesCard;
+	public JLabel viewCatalogCard;
 
+	/**
+	 * Create the panel.
+	 * @param courseCatalogPanel 
+	 * @param myCoursesPanel 
+	 * @param theList 
+	 * @param theList 
+	 */
+	public StandardUserHome(JFrame frame, MyCourses myCoursesPanel, CourseCatalog courseCatalogPanel, DefaultListModel<String> theList) {
+		setLayout(null);
 		JLabel exitButton = new JLabel("");
 		exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitButton.setBounds(1286, 30, 50, 50);
@@ -34,27 +47,24 @@ public class StandardUserHome extends JPanel {
 				frame.dispose();
 			}
 		});
-		add(exitButton);
-
-		JLabel viewCatalogueCard = new JLabel("");
-		viewCatalogueCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		viewCatalogueCard.addMouseListener(new MouseAdapter() {
+		
+		viewCatalogCard = new JLabel("");
+		viewCatalogCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		viewCatalogCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CourseCatalog courseCatalogPanel = new CourseCatalog(frame);
 				frame.setContentPane(courseCatalogPanel);
 				frame.revalidate();
 			}
 		});
-		viewCatalogueCard.setBounds(755, 188, 340, 398);
-		viewCatalogueCard.setIcon(new ImageIcon(StandardUserHome.class.getResource("/viewCatalogueCard.png")));
-		add(viewCatalogueCard);
+		viewCatalogCard.setBounds(755, 188, 340, 398);
+		viewCatalogCard.setIcon(new ImageIcon(StandardUserHome.class.getResource("/viewCatalogCard.png")));
+		add(viewCatalogCard);
 
-		JLabel viewCoursesCard = new JLabel("");
+		viewCoursesCard = new JLabel("");
 		viewCoursesCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MyCourses myCoursesPanel = new MyCourses(frame);
 				frame.setContentPane(myCoursesPanel);
 				frame.revalidate();
 			}
