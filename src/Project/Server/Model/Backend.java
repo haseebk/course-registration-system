@@ -13,14 +13,10 @@ public class Backend implements Serializable{
 
 	public Backend() {
 		setCatalog(new CourseCatalog());
-		students = new ArrayList<Student>();
+		setStudents(new ArrayList<Student>()); 
 
 		// SOME EXAMPLE INPUTS
-		Course myCourse = getCatalog().searchCat("ENGG", 319);
-		getCatalog().createCourseOffering(myCourse, 1, 34);
-		getCatalog().createCourseOffering(myCourse, 2, 38);
-
-		myCourse = getCatalog().searchCat("ENSF", 409);
+		Course myCourse = getCatalog().searchCat("ENSF", 409);
 		getCatalog().createCourseOffering(myCourse, 1, 42);
 		getCatalog().createCourseOffering(myCourse, 2, 61);
 
@@ -32,22 +28,20 @@ public class Backend implements Serializable{
 		getCatalog().createCourseOffering(myCourse, 1, 31);
 		getCatalog().createCourseOffering(myCourse, 2, 33);
 
-		myCourse = getCatalog().searchCat("ENCM", 369);
-		getCatalog().createCourseOffering(myCourse, 1, 76);
-		getCatalog().createCourseOffering(myCourse, 2, 51);
 
-		myCourse = getCatalog().searchCat("CPSC", 339);
-		getCatalog().createCourseOffering(myCourse, 1, 46);
-		getCatalog().createCourseOffering(myCourse, 2, 251);
 
-		students.add(new Student("StudentA", 1));
-		students.add(new Student("StudentB", 2));
-		students.add(new Student("StudentC", 3));
-		students.add(new Student("StudentD", 4));
-		students.add(new Student("StudentE", 5));
-		students.add(new Student("StudentF", 6));
-		students.add(new Student("StudentG", 7));
-		students.add(new Student("StudentH", 8));
+		getStudents().add(new Student("Student A", 10000));
+		addCourse("Student A", "PHYS", 369, 1);
+		addCourse("Student A", "ENSF", 409, 1);
+		addCourse("Student A", "MATH", 271, 1);
+		getStudents().add(new Student("Student B", 20000));
+		getStudents().add(new Student("Student C", 30000));
+		getStudents().add(new Student("Student D", 40000));
+		getStudents().add(new Student("Student E", 50000));
+		getStudents().add(new Student("Student F", 60000));
+		getStudents().add(new Student("Student G", 70000));
+		getStudents().add(new Student("Student H", 80000));
+
 	}
 
 	public String courseExist(String courseName, int courseID) {
@@ -112,9 +106,7 @@ public class Backend implements Serializable{
 
 	public void addCourse(String studentName, String courseName, int courseID, int sectionID) {
 		Student student = getStudent(studentName);
-
 		Course course = getCourse(courseName, courseID);
-
 		CourseOffering courseOffering = course.getCourseOfferingAt(sectionID);
 
 		student.addRegistration(new Registration(student, courseOffering));
@@ -126,24 +118,24 @@ public class Backend implements Serializable{
 
 	public String viewCourseTaken() {
 		String list = "";
-		for (int i = 0; i < students.size(); i++) {
-			list += students.get(i).viewAllCourses() + "\n";
+		for (int i = 0; i < getStudents().size(); i++) {
+			list += getStudents().get(i).viewAllCourses() + "\n";
 		}
 		return ("" + list);
 	}
 
 	public String viewStudentList() {
 		String list = "";
-		for (Student s : students) {
+		for (Student s : getStudents()) {
 			list += s + "\n";
 		}
 		return list;
 	}
 
-	private Student getStudent(String name) {
-		for (int i = 0; i < students.size(); i++) {
-			if (students.get(i).getStudentName().toLowerCase().equals(name.toLowerCase())) {
-				return students.get(i);
+	public Student getStudent(String name) {
+		for (int i = 0; i < getStudents().size(); i++) {
+			if (getStudents().get(i).getStudentName().toLowerCase().equals(name.toLowerCase())) {
+				return getStudents().get(i);
 			}
 		}
 		return null;
@@ -159,5 +151,13 @@ public class Backend implements Serializable{
 
 	public void setCatalog(CourseCatalog catalog) {
 		this.catalog = catalog;
+	}
+
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
 	}
 }

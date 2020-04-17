@@ -52,9 +52,9 @@ public class CourseCatalog implements Serializable{
 
 	@Override
 	public String toString() {
-		String st = "All courses in the catalog: \n";
+		String st = "";
 		for (Course c : courseList) {
-			st += c; // This line invokes the toString() method of Course
+			st += c;
 			st += "\n";
 		}
 		return st;

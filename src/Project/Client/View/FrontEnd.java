@@ -1,14 +1,10 @@
 package Project.Client.View;
 
-import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 import java.awt.event.MouseListener;
-
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-
 import Project.Server.Model.Backend;
+
 
 /**
  * This class creates the main frame that is used for the front end of the
@@ -30,19 +26,17 @@ public class FrontEnd extends JFrame {
 	private MyCourses myCoursesPanel;
 	private StandardUserHome homePanel;
 	private Login loginPanel;
-	private DefaultListModel<String> theList;
 
 	/**
 	 * Create the frame.
 	 */
-	public FrontEnd(DefaultListModel<String> theList, Backend backend) {
-		theList.clear();
-		theList.addElement(backend.viewCourseCatalogue());
+	public FrontEnd(Backend backend) {
+		
 		setMainFrame(new JFrame());
-		myCoursesPanel = new MyCourses(getMainFrame(), theList);
-		courseCatalogPanel = new CourseCatalog(getMainFrame(), theList);
-		homePanel = new StandardUserHome(getMainFrame(), myCoursesPanel, courseCatalogPanel, theList);
-		loginPanel = new Login(getMainFrame(), homePanel, theList);
+		myCoursesPanel = new MyCourses(getMainFrame(), backend);
+		courseCatalogPanel = new CourseCatalog(getMainFrame(), backend);
+		homePanel = new StandardUserHome(getMainFrame(), backend);
+		loginPanel = new Login(getMainFrame(), backend);
 
 		getMainFrame().setTitle("Course Registration System");
 		getMainFrame().setResizable(false);
@@ -53,7 +47,11 @@ public class FrontEnd extends JFrame {
 		getMainFrame().setLocationRelativeTo(null);
 		getMainFrame().setLayout(null);
 	}
-
+		
+	public void addBackMouseClicked(MouseListener e) {
+		myCoursesPanel.backButton.addMouseListener(e);
+		courseCatalogPanel.backButton.addMouseListener(e);
+	}
 	public void addViewMyCoursesMouseClicked(MouseListener e) {
 		homePanel.viewCoursesCard.addMouseListener(e);
 	}

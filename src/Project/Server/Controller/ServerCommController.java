@@ -28,7 +28,7 @@ public class ServerCommController {
 			e.printStackTrace();
 		}
 	}
-	public void establishConnection(Backend test) {
+	public void establishConnection(Backend backend) {
 		System.out.println("Awaiting connection with client.");
 		try {
 			theSocket = serverSocket.accept();
@@ -37,14 +37,14 @@ public class ServerCommController {
 			socketOut = new PrintWriter (theSocket.getOutputStream(), true);	
 			OutputStream objectSocketOut = theSocket.getOutputStream();
 			ObjectOutputStream  objectOutputStream  = new ObjectOutputStream(objectSocketOut);
-			objectOutputStream.writeObject(test);
+			objectOutputStream.writeObject(backend);
 		} catch (IOException e) {
 			e.getStackTrace();
 		}
 	}
 		
 	public void communicateWithClient(String message) {
-		socketOut.println(message.replace('\n', '_'));
+		socketOut.println(message);
 	}
 
 	public ArrayList<String> getInput() {
@@ -52,15 +52,11 @@ public class ServerCommController {
 			try {
 				String input = socketIn.readLine();
 				ArrayList<String> data = new ArrayList<String>();
-				String[] text = input.split("=");
-				for (int i = 0; i < text.length; i++) {
-					data.add(text[i]);
-				}
-				System.out.println(data);
+				data.clear();
+				data.add(input);
 				return data;
 			} catch (IOException e) {
-				System.err.println("Error occured in reciving or processing input");
-				System.err.println("");
+				System.err.println("Error: Unable to process input!");
 				System.exit(1);
 			}
 		}

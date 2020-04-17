@@ -25,13 +25,8 @@ public class CommController {
 			stdIn = new BufferedReader(new InputStreamReader(System.in));
 			socketIn = new BufferedReader(new InputStreamReader(aSocket.getInputStream()));
 			socketOut = new PrintWriter((aSocket.getOutputStream()), true);
-	        
 			oInputStream = aSocket.getInputStream();
 	        setObjectInputStream(new ObjectInputStream(getoInputStream()));
-
-//	        ObjectInputStream objectInputStream = new ObjectInputStream(oInputStream);
-
-
 
 		} catch (IOException e) {
 			System.err.println(e.getStackTrace());
@@ -46,7 +41,7 @@ public class CommController {
 		
 	public String recieveRawInput() {
 		try {
-			return socketIn.readLine().replace('_', '\n');
+			return socketIn.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +72,7 @@ public class CommController {
 				}
 				return data;
 			} catch (IOException e) {
-				System.err.println("Error occured in reciving or processing input");
+				System.err.println("Error: Unable to process input!");
 				e.printStackTrace();
 				System.err.println("");
 			}

@@ -2,14 +2,15 @@ package Project.Client.View;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.border.MatteBorder;
+
+import Project.Server.Model.Backend;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -48,10 +49,10 @@ public class Login extends JPanel {
 
 	/**
 	 * Create the panel.
-	 * 
-	 * @param homePanel
+	 * @param frame frame that the panel is being placed onto 
+	 * @param backend backend to obtain information and apply logic
 	 */
-	public Login(JFrame frame, StandardUserHome homePanel, DefaultListModel<String> theList) {
+	public Login(JFrame frame, Backend backend) {
 		setLayout(null);
 		usernameTextField = new JTextField();
 		usernameTextField.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -99,10 +100,9 @@ public class Login extends JPanel {
 				if (usernameTextField.getText().compareTo("test") == 0
 						&& String.valueOf(passwordField.getPassword()).compareTo("test") == 0) {
 					invalidLoginErrorLabel.setVisible(false);
-//					StandardUserHome stdUserHomePanel = new StandardUserHome(frame);
+					StandardUserHome homePanel = new StandardUserHome(frame, backend);
 					frame.setContentPane(homePanel);
 				} else {
-
 					invalidLoginErrorLabel.setVisible(true);
 				}
 				frame.revalidate();

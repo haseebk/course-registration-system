@@ -26,7 +26,7 @@ public class Course implements Serializable{
 			offering.setTheCourse(this);
 			if (!offering.getTheCourse().getCourseName().equals(courseName)
 					|| offering.getTheCourse().getCourseNum() != courseNum) {
-				System.err.println("Error! This section belongs to another course!");
+				System.err.println("Error: This section belongs to another course!");
 				return;
 			}
 			offeringList.add(offering);
@@ -53,10 +53,6 @@ public class Course implements Serializable{
 	public String toString() {
 		String st = "\n";
 		st += getCourseName() + " " + getCourseNum();
-		st += "\nAll course sections:\n";
-		for (CourseOffering c : offeringList)
-			st += c;
-		st += "\n-------\n";
 		return st;
 	}
 

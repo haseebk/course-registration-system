@@ -5,16 +5,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JTextField;
-import java.awt.Font;
 import javax.swing.border.MatteBorder;
+
+import Project.Server.Model.Backend;
+import Project.Server.Model.Course;
+import Project.Server.Model.CourseOffering;
+import Project.Server.Model.Registration;
+import Project.Server.Model.Student;
 
 /**
  * This class runs the user's Courses panel view. It displays the courses that
@@ -29,16 +33,15 @@ public class MyCourses extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField addCourseTextField;
-	private JTextField courseIDTextField;
+	public JLabel backButton;
 
 	/**
 	 * Create the panel.
-	 * @param theList 
+	 * 
+	 * @param frame   frame that the panel is being placed onto
+	 * @param backend backend to obtain information and apply logic
 	 */
-	public MyCourses(JFrame frame, DefaultListModel<String> theList) {
-
-//	public MyCourses(JFrame frame, StandardUserHome homePanel, DefaultListModel<String> theList) {
+	public MyCourses(JFrame frame, Backend backend) {
 		setLayout(null);
 		JLabel exitButton = new JLabel("");
 		exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -50,40 +53,29 @@ public class MyCourses extends JPanel {
 				frame.dispose();
 			}
 		});
-		
-		courseIDTextField = new JTextField();
-		courseIDTextField.setFont(new Font("Arial", Font.PLAIN, 17));
-		courseIDTextField.setColumns(10);
-		courseIDTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
-		courseIDTextField.setBounds(494, 694, 107, 24);
-		add(courseIDTextField);
-		
-		JLabel courseNumLabel = new JLabel("Course ID:");
-		courseNumLabel.setForeground(Color.GRAY);
-		courseNumLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-		courseNumLabel.setBounds(399, 689, 115, 39);
-		add(courseNumLabel);
-		
-		JLabel courseNameLabel = new JLabel("Course Name:");
-		courseNameLabel.setForeground(Color.GRAY);
-		courseNameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-		courseNameLabel.setBounds(399, 650, 115, 39);
-		add(courseNameLabel);
-		
-		addCourseTextField = new JTextField();
-		addCourseTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
-		addCourseTextField.setFont(new Font("Arial", Font.PLAIN, 17));
-		addCourseTextField.setBounds(517, 659, 107, 24);
-		add(addCourseTextField);
-		addCourseTextField.setColumns(10);
 		add(exitButton);
+		
+		JLabel addCourseButton = new JLabel("");
+		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
+		addCourseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend);
+				frame.setContentPane(courseCatalogPanel);
+				frame.revalidate();
+			}
+		});
+		addCourseButton.setBounds(824, 668, 152, 50);
+		add(addCourseButton);
+			
 
-		JLabel backButton = new JLabel("");
+		backButton = new JLabel("");
 		backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		backButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StandardUserHome homePanel = new StandardUserHome(frame, null, null, theList);
+				StandardUserHome homePanel = new StandardUserHome(frame, backend);
 				frame.setContentPane(homePanel);
 				frame.revalidate();
 			}
@@ -92,24 +84,19 @@ public class MyCourses extends JPanel {
 		backButton.setIcon(new ImageIcon(MyCourses.class.getResource("/backButton.png")));
 		add(backButton);
 
-		JList list = new JList();
-		list.setBorder(new LineBorder(Color.RED, 5, true));
-		list.setBounds(399, 148, 568, 480);
-		add(list);
-
-		JLabel addCourseButton = new JLabel("");
-		addCourseButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "\nThis method will be implemented soon.", " Success",
-						JOptionPane.PLAIN_MESSAGE);
-			}
-		});
-		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		addCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/addCourseButton.png")));
-		addCourseButton.setBounds(824, 668, 152, 50);
-		add(addCourseButton);
-
+		// CREATE SCROLLABLE LIST OF COURSES IN CATALOG
+		DefaultListModel<String> theList = new DefaultListModel<String>();
+		for (Registration registration : backend.getStudent("Student A").getStudentRegList()){
+			theList.addElement(registration.getTheOffering().getTheCourse().toString());
+			System.out.println("count");
+		}
+		JList<String> list = new JList<String>(theList);
+		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
+		JScrollPane scrollPane = new JScrollPane(list);
+		add(scrollPane);
+		scrollPane.setBounds(399, 148, 568, 480);
+		scrollPane.setVisible(true);
+		
 		JLabel myCourseBackground = new JLabel("");
 		myCourseBackground.setBounds(0, 0, 1366, 768);
 		myCourseBackground.setIcon(new ImageIcon(Login.class.getResource("/loginBackground.png")));

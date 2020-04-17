@@ -18,8 +18,9 @@ public class Registration implements Serializable{
 
 	void completeRegistration(Student st, CourseOffering of) {
 		theStudent = st;
+		theStudent.addRegistration(this);
 		theOffering = of;
-		addRegistration();
+		theOffering.addRegistration(this);
 	}
 
 	void completeRemoval(Student st, CourseOffering of) {

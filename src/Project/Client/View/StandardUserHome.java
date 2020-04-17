@@ -1,16 +1,15 @@
 package Project.Client.View;
 
 import javax.swing.JPanel;
-import javax.swing.DefaultListModel;
+
+import Project.Server.Model.Backend;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * This class runs the User Home Page panel view. It allows the user to view
@@ -30,12 +29,10 @@ public class StandardUserHome extends JPanel {
 
 	/**
 	 * Create the panel.
-	 * @param courseCatalogPanel 
-	 * @param myCoursesPanel 
-	 * @param theList 
-	 * @param theList 
+	 * @param frame frame that the panel is being placed onto 
+	 * @param backend backend to obtain information and apply logic
 	 */
-	public StandardUserHome(JFrame frame, MyCourses myCoursesPanel, CourseCatalog courseCatalogPanel, DefaultListModel<String> theList) {
+	public StandardUserHome(JFrame frame, Backend backend) {
 		setLayout(null);
 		JLabel exitButton = new JLabel("");
 		exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -53,6 +50,7 @@ public class StandardUserHome extends JPanel {
 		viewCatalogCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend);
 				frame.setContentPane(courseCatalogPanel);
 				frame.revalidate();
 			}
@@ -65,6 +63,7 @@ public class StandardUserHome extends JPanel {
 		viewCoursesCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				MyCourses myCoursesPanel = new MyCourses(frame, backend);
 				frame.setContentPane(myCoursesPanel);
 				frame.revalidate();
 			}

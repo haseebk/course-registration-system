@@ -1,21 +1,10 @@
 package Project.Client.Controller;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-
 import Project.Client.View.FrontEnd;
-import Project.Client.View.MyCourses;
-import Project.Client.View.CourseCatalog;
-import Project.Client.View.StandardUserHome;
 import Project.Server.Model.Backend;
-import Project.Client.View.Login;
 
 public class GUIController {
 	private CommController communicator;
@@ -28,6 +17,8 @@ public class GUIController {
 		frontEnd.addSubmitLoginMouseClicked(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				communicator.communicate("1");
+				System.out.println(communicator.recieveRawInput());
 
 			}
 
@@ -36,15 +27,23 @@ public class GUIController {
 		frontEnd.addViewMyCoursesMouseClicked(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				communicator.communicate("2");
+				System.out.println(communicator.recieveRawInput());
 			}
 
 		});
 		frontEnd.addViewCourseCatalogMouseClicked(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				communicator.communicate("1");
+				communicator.communicate("3");
+				System.out.println(communicator.recieveRawInput());
+			}
 
+		});
+		frontEnd.addBackMouseClicked(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				communicator.communicate("4");
 				System.out.println(communicator.recieveRawInput());
 			}
 
@@ -57,27 +56,20 @@ public class GUIController {
 
 	public static void main(String[] args) throws IOException {
 		CommController communicator;
-		DefaultListModel<String> theList = new DefaultListModel<String>();
-		String s = "TESTING";
-		String s2 = "TESTING2";
-		theList.addElement(s);
-		theList.addElement(s2);
-
 		FrontEnd frontEnd = null;
 		do {
 			try {
 				communicator = new CommController("localhost", 8089);
-		        Backend test = (Backend) communicator.getObjectInputStream().readObject();
-		        frontEnd = new FrontEnd(theList, test);
+				Backend backendObject = (Backend) communicator.getObjectInputStream().readObject();
+				frontEnd = new FrontEnd(backendObject);
 			} catch (Exception e) {
-				System.err.println("Error occured while creating CommController");
+				System.err.println("Error: Unable to run communication controller!");
 				e.printStackTrace();
 				System.err.println();
 				communicator = null;
 			}
 		} while (communicator == null);
 		GUIController controller = new GUIController(communicator, frontEnd);
-
 		controller.runClient();
 	}
 

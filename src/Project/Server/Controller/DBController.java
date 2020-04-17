@@ -2,10 +2,6 @@ package Project.Server.Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import Project.Client.View.FrontEnd;
 import Project.Server.Model.Backend;
 
 public class DBController {
@@ -16,61 +12,41 @@ public class DBController {
 		this.communicator = communicator;
 		DBController.backend = backend;
 	}
+
 	private void runServer() {
 		System.out.println("Server is running");
 		communicator.establishConnection(backend);
 		operateServer();
 	}
-	
-	
-	private void operateServer() {
-		while (true) {
-			ArrayList<String> data = communicator.getInput();
 
+	private void operateServer() {
+		ArrayList<String> data = communicator.getInput();
+
+		while (true) {
 			switch (Integer.parseInt(data.get(0))) {
 			case 1:
-				// Search catalog
-				communicator.communicateWithClient(backend.viewCourseCatalogue());
+				// Login
+				communicator.communicateWithClient("1");
 				break;
-			case 2:
-				// Add course
-				DBController.backend.addCourse(data.get(1), data.get(2), Integer.parseInt(data.get(3)),
-						Integer.parseInt(data.get(4)));
+			case 200:
+				// View User Courses
+				communicator.communicateWithClient("2");
 				break;
 			case 3:
-				// Remove course
+				// View Course Catalog
+				communicator.communicateWithClient("3");
 				break;
 			case 4:
-				// View Course catalog
+				// Any back button
+				communicator.communicateWithClient("4");
 				break;
 			case 5:
-				// View Course taken
+				communicator.communicateWithClient("5");
 				break;
-			case 6:
-				// Information request
-				switch (Integer.parseInt(data.get(1))) {
-				case 1:
-
-					break;
-				case 2:
-
-					break;
-				case 3:
-
-					break;
-				case 4:
-
-					break;
-				case 5:
-
-					break;
-				}
-				break;
-			default:
-
 			}
-		}		
+		}
 	}
+
 	public static void main(String[] args) throws IOException {
 		Backend backEnd = new Backend();
 
@@ -78,6 +54,5 @@ public class DBController {
 		DBController controller = new DBController(myServer, backEnd);
 		controller.runServer();
 
-		
 	}
 }
