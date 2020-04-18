@@ -18,7 +18,7 @@ public class Course implements Serializable{
 		this.setCourseName(courseName);
 		this.setCourseNum(courseNum);
 		preRequisite = new ArrayList<Course>();
-		offeringList = new ArrayList<CourseOffering>();
+		setOfferingList(new ArrayList<CourseOffering>());
 	}
 
 	public void addOffering(CourseOffering offering) {
@@ -29,7 +29,7 @@ public class Course implements Serializable{
 				System.err.println("Error: This section belongs to another course!");
 				return;
 			}
-			offeringList.add(offering);
+			getOfferingList().add(offering);
 		}
 	}
 
@@ -55,11 +55,23 @@ public class Course implements Serializable{
 		st += getCourseName() + " " + getCourseNum();
 		return st;
 	}
+	public int getNumberOfOfferings() {
+		return offeringList.size();
+	}
 
 	public CourseOffering getCourseOfferingAt(int i) {
-		if (i < 0 || i >= offeringList.size())
+		i = i - 1;
+		if (i < 0 || i >= getOfferingList().size())
 			return null;
 		else
-			return offeringList.get(i);
+			return getOfferingList().get(i);
+	}
+
+	public ArrayList<CourseOffering> getOfferingList() {
+		return offeringList;
+	}
+
+	public void setOfferingList(ArrayList<CourseOffering> offeringList) {
+		this.offeringList = offeringList;
 	}
 }

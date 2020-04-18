@@ -17,22 +17,22 @@ public class Backend implements Serializable{
 
 		// SOME EXAMPLE INPUTS
 		Course myCourse = getCatalog().searchCat("ENSF", 409);
-		getCatalog().createCourseOffering(myCourse, 1, 42);
-		getCatalog().createCourseOffering(myCourse, 2, 61);
+		getCatalog().createCourseOffering(myCourse, 1, 11);
+		getCatalog().createCourseOffering(myCourse, 2, 22);
 
 		myCourse = getCatalog().searchCat("PHYS", 369);
-		getCatalog().createCourseOffering(myCourse, 1, 26);
-		getCatalog().createCourseOffering(myCourse, 2, 240);
+		getCatalog().createCourseOffering(myCourse, 1, 11);
+		getCatalog().createCourseOffering(myCourse, 2, 22);
 
 		myCourse = getCatalog().searchCat("MATH", 271);
-		getCatalog().createCourseOffering(myCourse, 1, 31);
-		getCatalog().createCourseOffering(myCourse, 2, 33);
+		getCatalog().createCourseOffering(myCourse, 1, 11);
+		getCatalog().createCourseOffering(myCourse, 2, 22);
 
 
 
 		getStudents().add(new Student("Student A", 10000));
 		addCourse("Student A", "PHYS", 369, 1);
-		addCourse("Student A", "ENSF", 409, 1);
+		addCourse("Student A", "ENSF", 409, 2);
 		addCourse("Student A", "MATH", 271, 1);
 		getStudents().add(new Student("Student B", 20000));
 		getStudents().add(new Student("Student C", 30000));
@@ -108,7 +108,6 @@ public class Backend implements Serializable{
 		Student student = getStudent(studentName);
 		Course course = getCourse(courseName, courseID);
 		CourseOffering courseOffering = course.getCourseOfferingAt(sectionID);
-
 		student.addRegistration(new Registration(student, courseOffering));
 	}
 
@@ -141,8 +140,10 @@ public class Backend implements Serializable{
 		return null;
 	}
 
-	private Course getCourse(String courseName, int id) {
-		return getCatalog().getCourse(courseName, id);
+	public Course getCourse(String courseName, int id) {
+//		return getCatalog().getCourse(courseName, id);
+		return getCatalog().searchCat(courseName, id);
+
 	}
 
 	public CourseCatalog getCatalog() {
@@ -160,4 +161,14 @@ public class Backend implements Serializable{
 	public void setStudents(ArrayList<Student> students) {
 		this.students = students;
 	}
+	public int getMySecNum(String studentName, String courseName, String courseId) {
+		int index = getStudent(studentName).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
+		return getStudent(studentName).getStudentRegList().get(index).getTheOffering().getSecNum();
+	}
+	public int getMySecCap(String studentName, String courseName, String courseId) {
+		int index = getStudent(studentName).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
+		return getStudent(studentName).getStudentRegList().get(index).getTheOffering().getSecCap();
+	}
+	
+
 }

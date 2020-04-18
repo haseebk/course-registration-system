@@ -29,11 +29,20 @@ public class StandardUserHome extends JPanel {
 
 	/**
 	 * Create the panel.
-	 * @param frame frame that the panel is being placed onto 
+	 * 
+	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
 	 */
 	public StandardUserHome(JFrame frame, Backend backend) {
 		setLayout(null);
+
+		// CREATE UNI LOGO VIEW
+		JLabel uniLogo = new JLabel("");
+		uniLogo.setBounds(609, 29, 150, 131);
+		uniLogo.setIcon(new ImageIcon(StandardUserHome.class.getResource("/uniLogoB.png")));
+		add(uniLogo);
+
+		// CREATE EXIT BUTTON
 		JLabel exitButton = new JLabel("");
 		exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitButton.setBounds(1286, 30, 50, 50);
@@ -44,7 +53,24 @@ public class StandardUserHome extends JPanel {
 				frame.dispose();
 			}
 		});
-		
+		add(exitButton);
+
+		// CREATE LOGOUT BUTTON
+		JLabel logoutButton = new JLabel("");
+		logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		logoutButton.setBounds(1206, 30, 50, 50);
+		logoutButton.setIcon(new ImageIcon(StandardUserHome.class.getResource("/logoutButtonOutline.png")));
+		logoutButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login loginPanel = new Login(frame, backend);
+				frame.setContentPane(loginPanel);
+				frame.revalidate();
+			}
+		});
+		add(logoutButton);
+
+		// CREATE CATALOG CARD BUTTON
 		viewCatalogCard = new JLabel("");
 		viewCatalogCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		viewCatalogCard.addMouseListener(new MouseAdapter() {
@@ -55,10 +81,11 @@ public class StandardUserHome extends JPanel {
 				frame.revalidate();
 			}
 		});
-		viewCatalogCard.setBounds(755, 188, 340, 398);
+		viewCatalogCard.setBounds(736, 188, 340, 398);
 		viewCatalogCard.setIcon(new ImageIcon(StandardUserHome.class.getResource("/viewCatalogCard.png")));
 		add(viewCatalogCard);
 
+		// CREATE USER COURSES CARD BUTTON
 		viewCoursesCard = new JLabel("");
 		viewCoursesCard.addMouseListener(new MouseAdapter() {
 			@Override
@@ -69,10 +96,11 @@ public class StandardUserHome extends JPanel {
 			}
 		});
 		viewCoursesCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		viewCoursesCard.setBounds(244, 188, 340, 398);
+		viewCoursesCard.setBounds(277, 188, 340, 398);
 		viewCoursesCard.setIcon(new ImageIcon(StandardUserHome.class.getResource("/viewCoursesCard.png")));
 		add(viewCoursesCard);
 
+		// CREATE BACKGROUND VIEW
 		JLabel userHomeBackground = new JLabel("");
 		userHomeBackground.setBounds(0, 0, 1366, 768);
 		userHomeBackground.setIcon(new ImageIcon(StandardUserHome.class.getResource("/userHomeBackground.png")));

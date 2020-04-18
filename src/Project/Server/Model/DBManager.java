@@ -32,6 +32,7 @@ public class DBManager implements Serializable{
 		courseList.add(new Course("ENGG", 513));
 		courseList.add(new Course("ENSF", 337));
 		courseList.add(new Course("ENSF", 409));
+		courseList.add(new Course("TEST", 2));
 
 		return courseList;
 	}

@@ -18,9 +18,8 @@ public class Registration implements Serializable{
 
 	void completeRegistration(Student st, CourseOffering of) {
 		theStudent = st;
-		theStudent.addRegistration(this);
 		theOffering = of;
-		theOffering.addRegistration(this);
+		addRegistration();
 	}
 
 	void completeRemoval(Student st, CourseOffering of) {
@@ -30,7 +29,6 @@ public class Registration implements Serializable{
 	}
 
 	public void addRegistration() {
-		theStudent.addRegistration(this);
 		theOffering.addRegistration(this);
 	}
 

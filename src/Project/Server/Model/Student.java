@@ -61,6 +61,18 @@ public class Student implements Serializable{
 		}
 	}
 
+	public int getCourseIndex(String courseName, int courseID) {
+		int b = 0;
+		for (int i = 0; i < studentRegList.size(); i++) {
+			if (studentRegList.get(i).getTheOffering().getTheCourse().getCourseName().toLowerCase()
+					.equals(courseName.toLowerCase())
+					&& studentRegList.get(i).getTheOffering().getTheCourse().getCourseNum() == courseID) {
+				b = i;
+			}
+		}
+		return b;
+	}
+	
 	public boolean deleteOffering(String courseName, int courseID) {
 		Registration temp = null;
 		int b = 0;
