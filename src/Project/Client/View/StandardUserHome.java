@@ -2,6 +2,7 @@ package Project.Client.View;
 
 import javax.swing.JPanel;
 
+import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 
 import javax.swing.ImageIcon;
@@ -32,8 +33,9 @@ public class StandardUserHome extends JPanel {
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
+	 * @param auth 
 	 */
-	public StandardUserHome(JFrame frame, Backend backend) {
+	public StandardUserHome(JFrame frame, Backend backend, Authenticator auth) {
 		setLayout(null);
 
 		// CREATE UNI LOGO VIEW
@@ -63,7 +65,7 @@ public class StandardUserHome extends JPanel {
 		logoutButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Login loginPanel = new Login(frame, backend);
+				Login loginPanel = new Login(frame, backend, auth);
 				frame.setContentPane(loginPanel);
 				frame.revalidate();
 			}
@@ -76,7 +78,7 @@ public class StandardUserHome extends JPanel {
 		viewCatalogCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend);
+				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend, auth);
 				frame.setContentPane(courseCatalogPanel);
 				frame.revalidate();
 			}
@@ -90,7 +92,7 @@ public class StandardUserHome extends JPanel {
 		viewCoursesCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MyCourses myCoursesPanel = new MyCourses(frame, backend);
+				MyCourses myCoursesPanel = new MyCourses(frame, backend, auth);
 				frame.setContentPane(myCoursesPanel);
 				frame.revalidate();
 			}

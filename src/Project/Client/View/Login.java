@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.border.MatteBorder;
 
+import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 
 import java.awt.Font;
@@ -51,8 +52,9 @@ public class Login extends JPanel {
 	 * Create the panel.
 	 * @param frame frame that the panel is being placed onto 
 	 * @param backend backend to obtain information and apply logic
+	 * @param auth 
 	 */
-	public Login(JFrame frame, Backend backend) {
+	public Login(JFrame frame, Backend backend, Authenticator auth) {
 		setLayout(null);
 
 		// CREATE UNI LOGO VIEW
@@ -113,7 +115,7 @@ public class Login extends JPanel {
 				if (usernameTextField.getText().compareTo("test") == 0
 						&& String.valueOf(passwordField.getPassword()).compareTo("test") == 0) {
 					invalidLoginErrorLabel.setVisible(false);
-					StandardUserHome homePanel = new StandardUserHome(frame, backend);
+					StandardUserHome homePanel = new StandardUserHome(frame, backend, auth);
 					frame.setContentPane(homePanel);
 				} else {
 					invalidLoginErrorLabel.setVisible(true);

@@ -15,6 +15,7 @@ public class DBController {
 
 	private void runServer() {
 		System.out.println("Server is running");
+		
 		communicator.establishConnection(backend);
 		operateServer();
 	}
@@ -50,8 +51,8 @@ public class DBController {
 	public static void main(String[] args) throws IOException {
 		Backend backEnd = new Backend();
 
-		ServerCommController myServer = new ServerCommController(8089);
-		DBController controller = new DBController(myServer, backEnd);
+		ServerCommController serverCommunicator = new ServerCommController(8089);
+		DBController controller = new DBController(serverCommunicator, backEnd);
 		controller.runServer();
 
 	}

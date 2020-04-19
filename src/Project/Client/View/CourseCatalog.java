@@ -12,6 +12,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 import Project.Server.Model.Course;
 import java.awt.Color;
@@ -44,8 +46,9 @@ public class CourseCatalog extends JPanel {
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
+	 * @param auth 
 	 */
-	public CourseCatalog(JFrame frame, Backend backend) {
+	public CourseCatalog(JFrame frame, Backend backend, Authenticator auth) {
 		setLayout(null);
 
 		// CREATE UNI LOGO VIEW
@@ -96,7 +99,7 @@ public class CourseCatalog extends JPanel {
 		logoutButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Login loginPanel = new Login(frame, backend);
+				Login loginPanel = new Login(frame, backend, auth);
 				frame.setContentPane(loginPanel);
 				frame.revalidate();
 			}
@@ -165,7 +168,7 @@ public class CourseCatalog extends JPanel {
 		backButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StandardUserHome homePanel = new StandardUserHome(frame, backend);
+				StandardUserHome homePanel = new StandardUserHome(frame, backend, auth);
 				frame.setContentPane(homePanel);
 				frame.revalidate();
 			}

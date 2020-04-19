@@ -3,6 +3,8 @@ package Project.Client.View;
 
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+
+import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 
 
@@ -26,6 +28,8 @@ public class FrontEnd extends JFrame {
 	private MyCourses myCoursesPanel;
 	private StandardUserHome homePanel;
 	private Login loginPanel;
+	private static Authenticator auth = new Authenticator();
+
 
 	/**
 	 * Create the frame.
@@ -33,10 +37,10 @@ public class FrontEnd extends JFrame {
 	public FrontEnd(Backend backend) {
 		
 		setMainFrame(new JFrame());
-		myCoursesPanel = new MyCourses(getMainFrame(), backend);
-		courseCatalogPanel = new CourseCatalog(getMainFrame(), backend);
-		homePanel = new StandardUserHome(getMainFrame(), backend);
-		loginPanel = new Login(getMainFrame(), backend);
+		myCoursesPanel = new MyCourses(getMainFrame(), backend, auth);
+		courseCatalogPanel = new CourseCatalog(getMainFrame(), backend, auth);
+		homePanel = new StandardUserHome(getMainFrame(), backend, auth);
+		loginPanel = new Login(getMainFrame(), backend, auth);
 
 		getMainFrame().setTitle("Course Registration System");
 		getMainFrame().setResizable(false);
