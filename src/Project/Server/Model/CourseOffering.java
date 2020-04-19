@@ -58,12 +58,12 @@ public class CourseOffering implements Serializable{
 		String st = "\n";
 
 		st += getTheCourse().getCourseName() + " " + getTheCourse().getCourseNum() + "\n";
-
-		st += "Section Num: " + getSecNum() + ", Section Cap: " + getSecCap() + "\n\n";
+		st += "Section Num: " + getSecNum() + " | Section Capacity: " + getSecCap() + "\n";
 		return st;
 	}
 
 	public String viewAllCourses() {
+
 		return theCourse.getCourseName() + " " + theCourse.getCourseNum() + ", Section Number: " + secNum;
 	}
 

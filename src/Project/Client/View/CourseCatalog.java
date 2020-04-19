@@ -19,6 +19,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * This class runs the Course Catalog panel view. It displays the courses that
@@ -35,6 +37,7 @@ public class CourseCatalog extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	public JLabel backButton;
+	protected JList<String> list;
 
 	/**
 	 * Create the panel.
@@ -50,14 +53,7 @@ public class CourseCatalog extends JPanel {
 		uniLogo.setBounds(609, 29, 150, 131);
 		uniLogo.setIcon(new ImageIcon(CourseCatalog.class.getResource("/uniLogoB.png")));
 		add(uniLogo);
-
-		// CREATE COURSE INFO TEXT LABELS
-		JLabel courseSectionCapacityLabel = new JLabel("Section Capacity: "); // SECTION CAPACITY
-		courseSectionCapacityLabel.setFont(new Font("Arial", Font.BOLD, 14));
-		courseSectionCapacityLabel.setForeground(Color.WHITE);
-		courseSectionCapacityLabel.setBounds(1009, 271, 251, 14);
-		add(courseSectionCapacityLabel);
-		JLabel courseSectionNumberLabel = new JLabel("Section Number: "); // SECTION NUMBER
+		JLabel courseSectionNumberLabel = new JLabel("Available Sections: "); // SECTION NUMBER
 		courseSectionNumberLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		courseSectionNumberLabel.setForeground(Color.WHITE);
 		courseSectionNumberLabel.setBounds(1009, 246, 251, 14);
@@ -75,8 +71,8 @@ public class CourseCatalog extends JPanel {
 
 		// CREATE COURSE-INFO CARD
 		JLabel courseInfoCard = new JLabel("");
-		courseInfoCard.setBounds(996, 169, 280, 151);
-		courseInfoCard.setIcon(new ImageIcon(CourseCatalog.class.getResource("/smallCard.png")));
+		courseInfoCard.setBounds(996, 177, 280, 111);
+		courseInfoCard.setIcon(new ImageIcon(CourseCatalog.class.getResource("/smallerCard.png")));
 		add(courseInfoCard);
 
 		// CREATE EXIT BUTTON
@@ -112,13 +108,23 @@ public class CourseCatalog extends JPanel {
 		addCourseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(null, "\nThis method will be implemented soon.", " Success",
-						JOptionPane.PLAIN_MESSAGE);
+				String selectedCourse = (String) list.getSelectedValue();
+				String[] courseDetail = selectedCourse.split(" ");
+				Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
+						Integer.parseInt(courseDetail[1]));
+				if (result == null) {
+					JOptionPane.showMessageDialog(null,
+							"\nAn error occurred! Please make sure you have selected a course to add.", " Warning",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					System.out.println(result.getOfferingList().toString().replace("[", "").replace("]", "").replace(",", ""));
+
+				}
 			}
 		});
 		addCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addCourseButton.setIcon(new ImageIcon(CourseCatalog.class.getResource("/addToCoursesButton.png")));
-		addCourseButton.setBounds(994, 311, 152, 50);
+		addCourseButton.setBounds(995, 291, 147, 50);
 		add(addCourseButton);
 
 		// CREATE SCROLLABLE LIST OF COURSES IN CATALOG
@@ -126,7 +132,7 @@ public class CourseCatalog extends JPanel {
 		for (Course course : backend.getCatalog().getCourseList()) {
 			theList.addElement(course.toString());
 		}
-		JList<String> list = new JList<String>(theList);
+		this.list = new JList<String>(theList);
 		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
 		JScrollPane scrollPane = new JScrollPane(list);
 		add(scrollPane);
@@ -134,31 +140,24 @@ public class CourseCatalog extends JPanel {
 		scrollPane.setVisible(true);
 
 		// CREATE MOUSELISTENER FOR DOUBLE-CLICKING COURSE TO DISPLAY INFO
-		MouseListener mouseListener = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					String selectedCourse = (String) list.getSelectedValue();
-					String[] courseDetail = selectedCourse.split(" ");
-
-					Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
-							Integer.parseInt(courseDetail[1]));
-					if (result == null) {
-						JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
-								JOptionPane.PLAIN_MESSAGE);
-					} else {
-						System.out.println(result.getNumberOfOfferings());
-
-						courseNameLabel.setText("Course Name: " + result.getCourseName());
-						courseIDLabel.setText("Course ID: " + result.getCourseNum());
-						courseSectionNumberLabel.setText("Section Number: HOLDER");
-						courseSectionCapacityLabel.setText("Section Capacity: HOLDER");
-						System.out.println(result.getOfferingList());
-						frame.revalidate();
-					}
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				String selectedCourse = (String) list.getSelectedValue();
+				String[] courseDetail = selectedCourse.split(" ");
+				Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
+						Integer.parseInt(courseDetail[1]));
+				if (result == null) {
+					JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					System.out.println(result.getNumberOfOfferings());
+					courseNameLabel.setText("Course Name: " + result.getCourseName());
+					courseIDLabel.setText("Course ID: " + result.getCourseNum());
+					courseSectionNumberLabel.setText("Available Sections: " + result.getNumberOfOfferings());
+					frame.revalidate();
 				}
 			}
-		};
-		list.addMouseListener(mouseListener);
+		});
 
 		// CREATE BACK BUTTON
 		backButton = new JLabel("");

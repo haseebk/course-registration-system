@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import Project.Server.Model.Backend;
 import Project.Server.Model.Course;
@@ -78,7 +80,7 @@ public class MyCourses extends JPanel {
 
 		// CREATE COURSE-INFO CARD
 		JLabel courseInfoCard = new JLabel("");
-		courseInfoCard.setBounds(996, 169, 280, 151);
+		courseInfoCard.setBounds(996, 177, 280, 136);
 		courseInfoCard.setIcon(new ImageIcon(CourseCatalog.class.getResource("/smallCard.png")));
 		add(courseInfoCard);
 
@@ -153,47 +155,27 @@ public class MyCourses extends JPanel {
 		scrollPane.setVisible(true);
 
 		// CREATE MOUSELISTENER FOR DOUBLE-CLICKING COURSE TO DISPLAY INFO
-		MouseListener mouseListener = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					String selectedCourse = (String) list.getSelectedValue();
-					String[] courseDetail = selectedCourse.split(" ");
-					int secNum = backend.getMySecNum("Student A", courseDetail[0], courseDetail[1]);
-					int secCap = backend.getMySecCap("Student A", courseDetail[0], courseDetail[1]);
-					Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
-							Integer.parseInt(courseDetail[1]));
-
-//					Course result = backend.getCatalog().searchCat("PHYS", 369);
-					if (result == null) {
-						JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
-								JOptionPane.PLAIN_MESSAGE);
-					} else {
-						courseNameLabel.setText("Course Name: " + result.getCourseName());
-						courseIDLabel.setText("Course ID: " + result.getCourseNum());
-						courseSectionNumberLabel.setText("Section Number: " + secNum);
-						courseSectionCapacityLabel.setText("Section Capacity: " + secCap);
-						frame.revalidate();
-					}
-//					int index = backend.getStudent("Student A").getCourseIndex(courseDetail[0].trim(), Integer.parseInt(courseDetail[1]));
-//					int secNum = backend.getStudent("Student A").getStudentRegList().get(index).getTheOffering().getSecNum();
-//					int secCap = backend.getStudent("Student A").getStudentRegList().get(index).getTheOffering().getSecCap();
-//					Course result = backend.getCatalog().searchCat(courseDetail[0].trim(), Integer.parseInt(courseDetail[1]));
-//					
-////					Course result = backend.getCatalog().searchCat("PHYS", 369);
-//					if (result == null) {
-//						JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
-//								JOptionPane.PLAIN_MESSAGE);
-//
-//					} else {
-//						JOptionPane.showMessageDialog(null,
-//								"Course name: " + result.getCourseName() + "\nCourse ID: " + result.getCourseNum()
-//										+ " Offerings: " + result.getOfferingList(),
-//								" Result", JOptionPane.INFORMATION_MESSAGE);
-//					}
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				String selectedCourse = (String) list.getSelectedValue();
+				String[] courseDetail = selectedCourse.split(" ");
+				int secNum = backend.getMySecNum("Student A", courseDetail[0], courseDetail[1]);
+				int secCap = backend.getMySecCap("Student A", courseDetail[0], courseDetail[1]);
+				Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
+						Integer.parseInt(courseDetail[1]));
+				if (result == null) {
+					JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
+							JOptionPane.PLAIN_MESSAGE);
+				} else {
+					courseNameLabel.setText("Course Name: " + result.getCourseName());
+					courseIDLabel.setText("Course ID: " + result.getCourseNum());
+					courseSectionNumberLabel.setText("Section Number: " + secNum);
+					courseSectionCapacityLabel.setText("Section Capacity: " + secCap);
+					frame.revalidate();
 				}
 			}
-		};
-		list.addMouseListener(mouseListener);
+		});
+		
 
 		// CREATE BACKGROUND VIEW
 		JLabel myCourseBackground = new JLabel("");
