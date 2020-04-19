@@ -139,6 +139,14 @@ public class Backend implements Serializable{
 		}
 		return null;
 	}
+	public Student getStudent(int id) {
+		for (int i = 0; i < getStudents().size(); i++) {
+			if (getStudents().get(i).getStudentId() == id) {
+				return getStudents().get(i);
+			}
+		}
+		return null;
+	}
 
 	public Course getCourse(String courseName, int id) {
 //		return getCatalog().getCourse(courseName, id);
@@ -165,9 +173,17 @@ public class Backend implements Serializable{
 		int index = getStudent(studentName).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
 		return getStudent(studentName).getStudentRegList().get(index).getTheOffering().getSecNum();
 	}
+	public int getMySecNum(int studentId, String courseName, String courseId) {
+		int index = getStudent(studentId).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
+		return getStudent(studentId).getStudentRegList().get(index).getTheOffering().getSecNum();
+	}
 	public int getMySecCap(String studentName, String courseName, String courseId) {
 		int index = getStudent(studentName).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
 		return getStudent(studentName).getStudentRegList().get(index).getTheOffering().getSecCap();
+	}
+	public int getMySecCap(int studentId, String courseName, String courseId) {
+		int index = getStudent(studentId).getCourseIndex(courseName.trim(), Integer.parseInt(courseId));
+		return getStudent(studentId).getStudentRegList().get(index).getTheOffering().getSecCap();
 	}
 	
 
