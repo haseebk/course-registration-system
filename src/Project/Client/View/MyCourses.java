@@ -53,7 +53,7 @@ public class MyCourses extends JPanel {
 		// CREATE UNI LOGO VIEW
 		JLabel uniLogo = new JLabel("");
 		uniLogo.setBounds(609, 29, 150, 131);
-		// uniLogo.setIcon(new ImageIcon(MyCourses.class.getResource("/uniLogoB.png")));
+		uniLogo.setIcon(new ImageIcon(MyCourses.class.getResource("/uniLogoB.png")));
 		add(uniLogo);
 		
 		// CREATE COURSE INFO TEXT LABELS
