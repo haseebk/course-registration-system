@@ -2,6 +2,7 @@ package Project.Client.View;
 
 import javax.swing.JPanel;
 
+import Project.Server.Model.Account;
 import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 
@@ -11,6 +12,8 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * This class runs the User Home Page panel view. It allows the user to view
@@ -34,9 +37,20 @@ public class StandardUserHome extends JPanel {
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
 	 * @param auth 
+	 * @param acc 
 	 */
-	public StandardUserHome(JFrame frame, Backend backend, Authenticator auth) {
+	public StandardUserHome(JFrame frame, Backend backend, Authenticator auth, Account acc) {
 		setLayout(null);
+		
+		// CREATE HELLO USER LABEL
+		JLabel welcomeUserLabel = new JLabel("");
+		welcomeUserLabel.setFont(new Font("Arial", Font.BOLD, 31));
+		welcomeUserLabel.setForeground(Color.BLACK);
+		if (acc != null) {
+			welcomeUserLabel.setText("Hello, " + backend.getStudent(acc.getStudentId()).getStudentFirstName() + "!");
+		}
+		welcomeUserLabel.setBounds(30, 29, 278, 51);
+		add(welcomeUserLabel);
 
 		// CREATE UNI LOGO VIEW
 		JLabel uniLogo = new JLabel("");
@@ -78,7 +92,7 @@ public class StandardUserHome extends JPanel {
 		viewCatalogCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend, auth);
+				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend, auth, acc);
 				frame.setContentPane(courseCatalogPanel);
 				frame.revalidate();
 			}
@@ -92,7 +106,7 @@ public class StandardUserHome extends JPanel {
 		viewCoursesCard.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MyCourses myCoursesPanel = new MyCourses(frame, backend, auth);
+				MyCourses myCoursesPanel = new MyCourses(frame, backend, auth, acc);
 				frame.setContentPane(myCoursesPanel);
 				frame.revalidate();
 			}

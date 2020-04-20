@@ -28,18 +28,18 @@ public class FrontEnd extends JFrame {
 	private MyCourses myCoursesPanel;
 	private StandardUserHome homePanel;
 	private Login loginPanel;
-	private static Authenticator auth = new Authenticator();
 
 
 	/**
 	 * Create the frame.
 	 */
 	public FrontEnd(Backend backend) {
-		
+		Authenticator auth = new Authenticator(backend);
+
 		setMainFrame(new JFrame());
-		myCoursesPanel = new MyCourses(getMainFrame(), backend, auth);
-		courseCatalogPanel = new CourseCatalog(getMainFrame(), backend, auth);
-		homePanel = new StandardUserHome(getMainFrame(), backend, auth);
+		myCoursesPanel = new MyCourses(getMainFrame(), backend, auth, null);
+		courseCatalogPanel = new CourseCatalog(getMainFrame(), backend, auth, null);
+		homePanel = new StandardUserHome(getMainFrame(), backend, auth, null);
 		loginPanel = new Login(getMainFrame(), backend, auth);
 
 		getMainFrame().setTitle("Course Registration System");

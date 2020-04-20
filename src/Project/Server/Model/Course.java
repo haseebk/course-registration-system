@@ -52,7 +52,7 @@ public class Course implements Serializable{
 	@Override
 	public String toString() {
 		String st = "\n";
-		st += getCourseName() + " " + getCourseNum();
+		st += getCourseName().trim() + " " + getCourseNum();
 		return st;
 	}
 	public int getNumberOfOfferings() {

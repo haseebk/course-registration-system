@@ -14,35 +14,9 @@ public class Backend implements Serializable {
 	public Backend() {
 		setCatalog(new CourseCatalog());
 		setStudents(new ArrayList<Student>()); 
-//
-//		// SOME EXAMPLE INPUTS
-//		Course myCourse = getCatalog().searchCat("ENSF", 409);
-//		getCatalog().createCourseOffering(myCourse, 1, 11);
-//		getCatalog().createCourseOffering(myCourse, 2, 22);
-//
-//		myCourse = getCatalog().searchCat("PHYS", 369);
-//		getCatalog().createCourseOffering(myCourse, 1, 11);
-//		getCatalog().createCourseOffering(myCourse, 2, 22);
-//
-//		myCourse = getCatalog().searchCat("MATH", 271);
-//		getCatalog().createCourseOffering(myCourse, 1, 11);
-//		getCatalog().createCourseOffering(myCourse, 2, 22);
-//
-//
-//
-//		getStudents().add(new Student("Student A", 10000));
-//		addCourse("Student A", "PHYS", 369, 1);
-//		addCourse("Student A", "ENSF", 409, 2);
-//		addCourse("Student A", "MATH", 271, 1);
-//		getStudents().add(new Student("Student B", 20000));
-//		getStudents().add(new Student("Student C", 30000));
-//		getStudents().add(new Student("Student D", 40000));
-//		getStudents().add(new Student("Student E", 50000));
-//		getStudents().add(new Student("Student F", 60000));
-//		getStudents().add(new Student("Student G", 70000));
-//		getStudents().add(new Student("Student H", 80000));
-
 	}
+	
+	
 
 	public String courseExist(String courseName, int courseID) {
 		if (getCourse(courseName, courseID) == null) {
@@ -68,7 +42,6 @@ public class Backend implements Serializable {
 	public String removeCourse(String firstname, String lastname, String courseName, int courseID) {
 		Student student = getStudent(firstname, lastname);
 		if (student.deleteOffering(courseName, courseID) == false) {
-
 			return ("1");
 		}
 		return ("0");
@@ -76,26 +49,20 @@ public class Backend implements Serializable {
 
 	public String canEnroll(String firstname, String lastname, String courseName, int courseID, int sectionID) {
 		Course course = getCourse(courseName, courseID);
-
 		if (course == null) {
-
 			return ("1");
 		}
 
 		CourseOffering courseOffering = course.getCourseOfferingAt(sectionID);
-
 		if (courseOffering == null) {
-
 			return ("2");
 		}
 
 		Student student = getStudent(firstname, lastname);
 
 		if (student.alreadyEnrolled(courseName, courseID)) {
-
 			return ("3");
 		}
-
 		return ("0");
 	}
 
@@ -152,9 +119,7 @@ public class Backend implements Serializable {
 	}
 
 	public Course getCourse(String courseName, int id) {
-//		return getCatalog().getCourse(courseName, id);
 		return getCatalog().searchCat(courseName, id);
-
 	}
 
 	public CourseCatalog getCatalog() {

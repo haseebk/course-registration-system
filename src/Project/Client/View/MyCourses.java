@@ -6,25 +6,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.Cursor;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Project.Server.Model.Account;
 import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 import Project.Server.Model.Course;
-import Project.Server.Model.CourseOffering;
 import Project.Server.Model.Registration;
-import Project.Server.Model.Student;
+
 import java.awt.Font;
 
 /**
@@ -41,23 +43,41 @@ public class MyCourses extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	public JLabel backButton;
+	private JTextField searchTextField;
+	private JList<String> list;
+	private Backend backend;
+	private Account acc;
 
 	/**
 	 * Create the panel.
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
-	 * @param auth 
+	 * @param auth
+	 * @param acc
 	 */
-	public MyCourses(JFrame frame, Backend backend, Authenticator auth) {
+	public MyCourses(JFrame frame, Backend backend, Authenticator auth, Account acc) {
 		setLayout(null);
+		this.backend = backend;
+		this.acc = acc;
+		this.list = createJList(backend, acc);
+
+		// CREATE HELLO USER LABEL
+		JLabel welcomeUserLabel = new JLabel("");
+		welcomeUserLabel.setFont(new Font("Arial", Font.BOLD, 31));
+		welcomeUserLabel.setForeground(Color.BLACK);
+		if (acc != null) {
+			welcomeUserLabel.setText("Hello, " + backend.getStudent(acc.getStudentId()).getStudentFirstName() + "!");
+		}
+		welcomeUserLabel.setBounds(90, 29, 278, 51);
+		add(welcomeUserLabel);
 
 		// CREATE UNI LOGO VIEW
 		JLabel uniLogo = new JLabel("");
 		uniLogo.setBounds(609, 29, 150, 131);
 		uniLogo.setIcon(new ImageIcon(MyCourses.class.getResource("/uniLogoB.png")));
 		add(uniLogo);
-		
+
 		// CREATE COURSE INFO TEXT LABELS
 		JLabel courseSectionCapacityLabel = new JLabel("Section Capacity: "); // SECTION CAPACITY
 		courseSectionCapacityLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -121,7 +141,7 @@ public class MyCourses extends JPanel {
 		addCourseButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend, auth);
+				CourseCatalog courseCatalogPanel = new CourseCatalog(frame, backend, auth, acc);
 				frame.setContentPane(courseCatalogPanel);
 				frame.revalidate();
 			}
@@ -135,49 +155,62 @@ public class MyCourses extends JPanel {
 		backButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StandardUserHome homePanel = new StandardUserHome(frame, backend, auth);
+				StandardUserHome homePanel = new StandardUserHome(frame, backend, auth, acc);
 				frame.setContentPane(homePanel);
 				frame.revalidate();
 			}
 		});
 		backButton.setBounds(30, 30, 50, 50);
-		backButton.setIcon(new ImageIcon(MyCourses.class.getResource("/backButton.png")));
+		backButton.setIcon(new ImageIcon(MyCourses.class.getResource("/backButtonOutline.png")));
 		add(backButton);
 
 		// CREATE SCROLLABLE LIST OF COURSES IN CATALOG
-		DefaultListModel<String> theList = new DefaultListModel<String>();
-		for (Registration registration : backend.getStudent("Haseeb", "Khan").getStudentRegList()) {
-			theList.addElement(registration.getTheOffering().getTheCourse().toString());
-		}
-		JList<String> list = new JList<String>(theList);
-		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
+//		DefaultListModel<String> theList = new DefaultListModel<String>();
+//		if (acc != null) {
+//			for (Registration registration : backend.getStudent(acc.getStudentId()).getStudentRegList()) {
+//				theList.addElement(registration.getTheOffering().getTheCourse().toString());
+//			}
+//		}
+//		JList<String> list = new JList<String>(theList);
+//		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
 		JScrollPane scrollPane = new JScrollPane(list);
-		add(scrollPane);
 		scrollPane.setBounds(400, 177, 568, 480);
 		scrollPane.setVisible(true);
+		add(createTextField(acc));
+		add(scrollPane);
+		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
 
-		// CREATE MOUSELISTENER FOR DOUBLE-CLICKING COURSE TO DISPLAY INFO
+		// CREATE MOUSELISTENER FOR CLICKING COURSE TO DISPLAY INFO
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				String selectedCourse = (String) list.getSelectedValue();
-				String[] courseDetail = selectedCourse.split(" ");
-				int secNum = backend.getMySecNum("Haseeb", "Khan", courseDetail[0], courseDetail[1]);
-				int secCap = backend.getMySecCap("Haseeb", "Khan", courseDetail[0], courseDetail[1]);
-				Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
-						Integer.parseInt(courseDetail[1]));
-				if (result == null) {
-					JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
-							JOptionPane.PLAIN_MESSAGE);
+				if (selectedCourse != null) {
+					String[] courseDetail = selectedCourse.split(" ");
+					String firstName = backend.getStudent(acc.getStudentId()).getStudentFirstName();
+					String lastName = backend.getStudent(acc.getStudentId()).getStudentLastName();
+					int secNum = backend.getMySecNum(firstName, lastName, courseDetail[0], courseDetail[1]);
+					int secCap = backend.getMySecCap(firstName, lastName, courseDetail[0], courseDetail[1]);
+					Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
+							Integer.parseInt(courseDetail[1]));
+					if (result == null) {
+						JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
+								JOptionPane.PLAIN_MESSAGE);
+					} else {
+						courseNameLabel.setText("Course Name: " + result.getCourseName());
+						courseIDLabel.setText("Course ID: " + result.getCourseNum());
+						courseSectionNumberLabel.setText("Section Number: " + secNum);
+						courseSectionCapacityLabel.setText("Section Capacity: " + secCap);
+						frame.revalidate();
+					}
 				} else {
-					courseNameLabel.setText("Course Name: " + result.getCourseName());
-					courseIDLabel.setText("Course ID: " + result.getCourseNum());
-					courseSectionNumberLabel.setText("Section Number: " + secNum);
-					courseSectionCapacityLabel.setText("Section Capacity: " + secCap);
+					courseNameLabel.setText("Course Name: ");
+					courseIDLabel.setText("Course ID: ");
+					courseSectionNumberLabel.setText("Section Number: ");
+					courseSectionCapacityLabel.setText("Section Capacity: ");
 					frame.revalidate();
 				}
 			}
 		});
-		
 
 		// CREATE BACKGROUND VIEW
 		JLabel myCourseBackground = new JLabel("");
@@ -186,5 +219,74 @@ public class MyCourses extends JPanel {
 
 		add(myCourseBackground);
 
+	}
+
+	public JTextField createTextField(Account acc) {
+		searchTextField = new JTextField();
+		searchTextField.setBorder(new MatteBorder(0, 5, 0, 0, (Color) Color.YELLOW));
+		searchTextField.setBackground(new Color(240, 255, 240));
+		searchTextField.setBounds(400, 158, 568, 20);
+		searchTextField.setColumns(10);
+		searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				filter();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				filter();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+
+			private void filter() {
+				String filter = searchTextField.getText();
+				filterTheList((DefaultListModel<String>) list.getModel(), filter);
+			}
+		});
+		return searchTextField;
+	}
+
+	public void filterTheList(DefaultListModel<String> theList, String filter) {
+		if (acc != null) {
+			for (Registration registration : backend.getStudent(acc.getStudentId()).getStudentRegList()) {
+				String name = registration.getTheOffering().getTheCourse().getCourseName().trim();
+				String num = Integer.toString(registration.getTheOffering().getTheCourse().getCourseNum());
+				String s = name + " " + num;
+
+				if (!s.contains(filter.toUpperCase())) {
+					if (theList.contains(s)) {
+						theList.removeElement(s);
+					}
+				} else {
+					if (!theList.contains(s)) {
+						theList.addElement(s);
+					}
+				}
+			}
+		}
+	}
+
+	public JList<String> createJList(Backend backend, Account acc) {
+		JList<String> list = new JList<String>(createDefaultListModel(backend, acc));
+		list.setVisible(true);
+		return list;
+	}
+
+	public DefaultListModel<String> createDefaultListModel(Backend backend, Account acc) {
+		DefaultListModel<String> theList = new DefaultListModel<>();
+		if (acc != null) {
+			for (Registration registration : backend.getStudent(acc.getStudentId()).getStudentRegList()) {
+				String name = registration.getTheOffering().getTheCourse().getCourseName().trim();
+				String num = Integer.toString(registration.getTheOffering().getTheCourse().getCourseNum());
+				String s = name + " " + num;
+				theList.addElement(s);
+			}
+		}
+
+		return theList;
 	}
 }

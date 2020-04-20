@@ -31,10 +31,9 @@ public class CourseCatalog implements Serializable {
 	}
 
 	public Course searchCat(String courseName, int courseNum) {
-
-		for (Course c : courseList) {
-			if (courseName.equals(c.getCourseName()) && courseNum == c.getCourseNum()) {
-				return c;
+		for (Course currentCourse : courseList) {
+			if (currentCourse.getCourseName().toLowerCase().compareTo(courseName.toLowerCase()) == 0 && currentCourse.getCourseNum() == courseNum) {
+				return currentCourse;
 			}
 		}
 		displayCourseNotFoundError();

@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.border.MatteBorder;
 
+import Project.Server.Model.Account;
 import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
 
@@ -47,6 +48,8 @@ public class Login extends JPanel {
 	 */
 	private JLabel usernameLabel;
 	JLabel submitLoginButton;
+	private JLabel registerButton;
+	private JLabel versionLabel;
 
 	/**
 	 * Create the panel.
@@ -56,6 +59,28 @@ public class Login extends JPanel {
 	 */
 	public Login(JFrame frame, Backend backend, Authenticator auth) {
 		setLayout(null);
+		
+		versionLabel = new JLabel("V3.0.0");
+		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		versionLabel.setForeground(Color.GRAY);
+		versionLabel.setFont(new Font("Arial", Font.BOLD, 11));
+		versionLabel.setBounds(692, 585, 118, 14);
+		add(versionLabel);
+		
+		registerButton = new JLabel("CREATE ACCOUNT");
+		registerButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Register registerPanel = new Register(frame, backend, auth);
+				frame.setContentPane(registerPanel);
+				frame.revalidate();
+			}
+		});
+		registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		registerButton.setForeground(Color.GRAY);
+		registerButton.setFont(new Font("Arial", Font.BOLD, 11));
+		registerButton.setBounds(556, 585, 106, 14);
+		add(registerButton);
 
 		// CREATE UNI LOGO VIEW
 		JLabel uniLogo = new JLabel("");
@@ -65,6 +90,7 @@ public class Login extends JPanel {
 		
 		// CREATE USERNAME TEXT FIELD
 		usernameTextField = new JTextField();
+		usernameTextField.setToolTipText("Enter your username.");
 		usernameTextField.setFont(new Font("Arial", Font.PLAIN, 13));
 		usernameTextField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
 		usernameTextField.setForeground(Color.DARK_GRAY);
@@ -77,6 +103,7 @@ public class Login extends JPanel {
 		
 		// CREATE PASSWORD TEXT FIELD
 		passwordField = new JPasswordField();
+		passwordField.setToolTipText("Enter your password.");
 		passwordField.setBorder(new MatteBorder(0, 0, 3, 0, (Color) Color.LIGHT_GRAY));
 		passwordField.setForeground(Color.BLACK);
 		passwordField.setBounds(556, 443, 254, 28);
@@ -108,22 +135,26 @@ public class Login extends JPanel {
 		
 		// CREATE SUBMIT LOGIN BUTTON
 		submitLoginButton = new JLabel("");
+		submitLoginButton.setToolTipText("Login");
 		submitLoginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		submitLoginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (usernameTextField.getText().compareTo("test") == 0
-						&& String.valueOf(passwordField.getPassword()).compareTo("test") == 0) {
-					invalidLoginErrorLabel.setVisible(false);
-					StandardUserHome homePanel = new StandardUserHome(frame, backend, auth);
-					frame.setContentPane(homePanel);
-				} else {
+				String user = usernameTextField.getText();
+				String pass = String.valueOf(passwordField.getPassword());
+				Account acc = auth.loginAuth(user, pass);
+				if (acc == null) {
 					invalidLoginErrorLabel.setVisible(true);
+				}
+				else {
+					invalidLoginErrorLabel.setVisible(false);
+					StandardUserHome homePanel = new StandardUserHome(frame, backend, auth, acc);
+					frame.setContentPane(homePanel);
 				}
 				frame.revalidate();
 			}
 		});
-		submitLoginButton.setBounds(659, 496, 48, 50);
+		submitLoginButton.setBounds(659, 494, 48, 50);
 		submitLoginButton.setIcon(new ImageIcon(Login.class.getResource("/enterButton.png")));
 		add(submitLoginButton);
 

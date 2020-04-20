@@ -50,14 +50,14 @@ public class ClientHandler implements Runnable {
 		this.theSocket = clientSocket;
 		this.backend = backend;
 		readFromDatabase();
+
 		socketIn = new BufferedReader(new InputStreamReader(theSocket.getInputStream()));
 		socketOut = new PrintWriter(theSocket.getOutputStream(), true);
 		OutputStream objectSocketOut = theSocket.getOutputStream();
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(objectSocketOut);
 		objectOutputStream.writeObject(backend);
-
 	}
-	private void readFromDatabase() {
+	void readFromDatabase() {
 		MySQLJDBC reader = new MySQLJDBC();
 		reader.initializeConnection();
 		reader.obtainBackendData(backend);
@@ -76,6 +76,7 @@ public class ClientHandler implements Runnable {
 	}
 
 	public void operateServer() {
+
 		ArrayList<String> data = getInput();
 
 		while (true) {

@@ -1,60 +1,65 @@
 package Project.Server.Model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class Authenticator implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected HashMap<String, Account> accounts = new HashMap<String, Account>();
+	private Backend backend;
 	private boolean successfulReg;
-	
-	public void importStudentAccounts() {
-		try {
-			File studentFile = new File("accounts.txt");
-			studentFile.createNewFile();
-			FileReader fReader = new FileReader(studentFile);
-			BufferedReader bReader = new BufferedReader(fReader);
-			
-			String textLine;
-			String studentAccounts[];
-			
-			while((textLine = bReader.readLine()) != null) {
-				studentAccounts = textLine.split(" ");
-				accounts.put(studentAccounts[0], new Account(studentAccounts[0], studentAccounts[1], studentAccounts[2]));
-			}
-			fReader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+	public Authenticator(Backend backend) {
+		this.backend = backend;
 	}
+
 	public Account loginAuth(String username, String password) {
-		if (accounts.containsKey(username)) {
-			if (accounts.get(username).getPassword().equals(password)) {
-				return accounts.get(username);
-			}
-			else {
-				System.out.println("Invalid password");
-				return null;
+		for (Student currentStudent : backend.getStudents()) {
+			if (currentStudent.getAccount().getUsername().toLowerCase().compareTo(username.toLowerCase()) == 0) {
+				if (currentStudent.getAccount().getPassword().compareTo(password) == 0) {
+					return currentStudent.getAccount();
+				} else {
+					System.out.println("Invalid password");
+				}
+			} else {
+				System.out.println("Invalid username and password");
 			}
 		}
-		else {
-			System.out.println("Invalid username and password");
-			return null;
+		return null;
+	}
+
+	public String registerAuth(String username, String password, boolean confirmPass) {
+		boolean validUser = Account.validateUsername(username);
+		boolean validPass = Account.validatePassword(password);
+		boolean uniqueUser = checkSameUser(username);
+		
+
+		if (validUser && validPass && uniqueUser && confirmPass) {
+			return "Success";
+		} else if (validUser && uniqueUser == false) {
+			return "username";
+		} else {
+			return "password";
 		}
 	}
+
+	public boolean checkSameUser(String username) {
+		boolean returnVal = false;
+		for (Student currentStudent : backend.getStudents()) {
+			if (currentStudent.getAccount().getUsername().compareToIgnoreCase(username) == 0) {
+				returnVal = true;
+			}
+		}
+		return returnVal;
+	}
+
 	public boolean isSuccessfulReg() {
 		return successfulReg;
 	}
+
 	public void setSuccessfulReg(boolean successfulReg) {
 		this.successfulReg = successfulReg;
 	}
-	
 
 }

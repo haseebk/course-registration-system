@@ -25,7 +25,7 @@ public class Student implements Serializable{
 		this.studentRegList = studentRegList;
 	}
 	public Student(int id, String firstName, String lastName, String username, String password) {
-		this.setStudentId(studentId);
+		this.setStudentId(id);
 		this.setStudentFirstName(firstName);
 		this.setStudentLastName(lastName);
 		setAccount(new Account(username, password, Integer.toString(id)));

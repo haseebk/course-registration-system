@@ -11,7 +11,7 @@ public class GUIController {
 	private FrontEnd frontEnd;
 
 	public GUIController(CommController communicator, FrontEnd frontEnd) {
-		this.communicator = communicator;
+		this.setCommunicator(communicator);
 		this.frontEnd = frontEnd;
 
 		frontEnd.addSubmitLoginMouseClicked(new MouseAdapter() {
@@ -70,6 +70,14 @@ public class GUIController {
 		} while (communicator == null);
 		GUIController controller = new GUIController(communicator, frontEnd);
 		controller.runClient();
+	}
+
+	public CommController getCommunicator() {
+		return communicator;
+	}
+
+	public void setCommunicator(CommController communicator) {
+		this.communicator = communicator;
 	}
 
 }

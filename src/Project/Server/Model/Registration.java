@@ -12,14 +12,14 @@ public class Registration implements Serializable{
 	private CourseOffering theOffering;
 	private char grade;
 
-	Registration(Student student, CourseOffering offering) {
+	Registration (Student student, CourseOffering offering) {
 		completeRegistration(student, offering);
 	}
 
 	void completeRegistration(Student st, CourseOffering of) {
-		theStudent = st;
-		theOffering = of;
-		addRegistration();
+		this.theStudent = st;
+		this.theOffering = of;
+//		addRegistration();
 	}
 
 	void completeRemoval(Student st, CourseOffering of) {
