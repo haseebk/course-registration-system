@@ -18,11 +18,19 @@ public class ServerCommController {
 		serverSocket = new ServerSocket(port);
 		pool = Executors.newCachedThreadPool();
 	}
+	public void importDatabase(Backend backend) {
+		MySQLJDBC importer = new MySQLJDBC();
+		importer.initializeConnection();
+		importer.obtainBackendData(backend);
+		importer.closeConnection();
+	}
 	public void establishConnection(Backend backend) throws IOException {
 		while(true) {
+			importDatabase(backend);
+
 			System.out.println("[SERVER] Waiting for client connection...");
 			theSocket = serverSocket.accept();
-			System.out.println("[SERVER]Successfully connected to client!");
+			System.out.println("[SERVER] Successfully connected to client!");
 
 			ClientHandler clientThread = new ClientHandler(theSocket, backend);
 			pool.execute(clientThread);

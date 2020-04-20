@@ -146,7 +146,7 @@ public class MyCourses extends JPanel {
 
 		// CREATE SCROLLABLE LIST OF COURSES IN CATALOG
 		DefaultListModel<String> theList = new DefaultListModel<String>();
-		for (Registration registration : backend.getStudent("Student A").getStudentRegList()) {
+		for (Registration registration : backend.getStudent("Haseeb", "Khan").getStudentRegList()) {
 			theList.addElement(registration.getTheOffering().getTheCourse().toString());
 		}
 		JList<String> list = new JList<String>(theList);
@@ -161,8 +161,8 @@ public class MyCourses extends JPanel {
 			public void valueChanged(ListSelectionEvent e) {
 				String selectedCourse = (String) list.getSelectedValue();
 				String[] courseDetail = selectedCourse.split(" ");
-				int secNum = backend.getMySecNum("Student A", courseDetail[0], courseDetail[1]);
-				int secCap = backend.getMySecCap("Student A", courseDetail[0], courseDetail[1]);
+				int secNum = backend.getMySecNum("Haseeb", "Khan", courseDetail[0], courseDetail[1]);
+				int secCap = backend.getMySecCap("Haseeb", "Khan", courseDetail[0], courseDetail[1]);
 				Course result = backend.getCatalog().searchCat(courseDetail[0].trim(),
 						Integer.parseInt(courseDetail[1]));
 				if (result == null) {

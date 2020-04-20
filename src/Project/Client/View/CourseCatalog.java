@@ -153,7 +153,7 @@ public class CourseCatalog extends JPanel {
 					JOptionPane.showMessageDialog(null, "\nAn error occurred!", " Warning",
 							JOptionPane.PLAIN_MESSAGE);
 				} else {
-					System.out.println(result.getNumberOfOfferings());
+//					System.out.println(result.getNumberOfOfferings());
 					courseNameLabel.setText("Course Name: " + result.getCourseName());
 					courseIDLabel.setText("Course ID: " + result.getCourseNum());
 					courseSectionNumberLabel.setText("Available Sections: " + result.getNumberOfOfferings());

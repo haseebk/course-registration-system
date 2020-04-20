@@ -3,7 +3,7 @@ package Project.Server.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CourseCatalog implements Serializable{
+public class CourseCatalog implements Serializable {
 
 	/**
 	 * 
@@ -12,7 +12,7 @@ public class CourseCatalog implements Serializable{
 	private ArrayList<Course> courseList;
 
 	public CourseCatalog() {
-		loadFromDataBase();
+		courseList = new ArrayList<Course>();
 	}
 
 	public ArrayList<Course> getCourseList() {
@@ -21,11 +21,6 @@ public class CourseCatalog implements Serializable{
 
 	public void setCourseList(ArrayList<Course> courseList) {
 		this.courseList = courseList;
-	}
-
-	private void loadFromDataBase() {
-		DBManager db = new DBManager();
-		setCourseList(db.readFromDataBase());
 	}
 
 	public void createCourseOffering(Course c, int secNum, int secCap) {
@@ -68,5 +63,9 @@ public class CourseCatalog implements Serializable{
 			}
 		}
 		return null;
+	}
+
+	public void addCourse(String courseName, int courseID) {
+		courseList.add(new Course(courseName, courseID));
 	}
 }

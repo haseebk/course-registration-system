@@ -19,7 +19,6 @@ public class GUIController {
 			public void mouseClicked(MouseEvent e) {
 				communicator.communicate("1");
 				System.out.println(communicator.recieveRawInput());
-
 			}
 
 		});

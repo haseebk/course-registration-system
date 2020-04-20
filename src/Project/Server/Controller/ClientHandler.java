@@ -11,25 +11,74 @@ import java.util.ArrayList;
 
 import Project.Server.Model.Backend;
 
+/**
+ * The purpose of this class is to handle multiple clients through
+ * multithreading. The class is runnable and performs the run method when
+ * executed.
+ * 
+ * @author Muhammad Tariq, Haseeb Khan
+ * @version 1.0
+ * @since April 19, 2019
+ */
 public class ClientHandler implements Runnable {
-    private Socket theSocket;
-    private PrintWriter socketOut;
-    private BufferedReader socketIn;
+	/**
+	 * The socket for client communication
+	 */
+	private Socket theSocket;
 
-    public ClientHandler(Socket clientSocket, Backend backend) throws IOException {
-        this.theSocket = clientSocket;
-        socketIn = new BufferedReader (new InputStreamReader (theSocket.getInputStream()));
-		socketOut = new PrintWriter (theSocket.getOutputStream(), true);	
+	/**
+	 * The socket for sending data to client
+	 */
+	private PrintWriter socketOut;
+
+	/**
+	 * The socket for receiving data from client
+	 */
+	private BufferedReader socketIn;
+	
+	private Backend backend;
+
+	/**
+	 * Constructor for client Handler that connects to backend processor and
+	 * connects to a client
+	 * 
+	 * @param clientSocket
+	 * @param backend
+	 * @throws IOException
+	 */
+	public ClientHandler(Socket clientSocket, Backend backend) throws IOException {
+		this.theSocket = clientSocket;
+		this.backend = backend;
+		readFromDatabase();
+		socketIn = new BufferedReader(new InputStreamReader(theSocket.getInputStream()));
+		socketOut = new PrintWriter(theSocket.getOutputStream(), true);
 		OutputStream objectSocketOut = theSocket.getOutputStream();
-		ObjectOutputStream  objectOutputStream  = new ObjectOutputStream(objectSocketOut);
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(objectSocketOut);
 		objectOutputStream.writeObject(backend);
-    }
 
+	}
+	private void readFromDatabase() {
+		MySQLJDBC reader = new MySQLJDBC();
+		reader.initializeConnection();
+		reader.obtainBackendData(backend);
+		reader.closeConnection();
+	}
+	/**
+	 * Run method that is executed when a thread is created. Receives input from client for processing
+	 */
     @Override
     public void run() {
-        ArrayList<String> data = getInput();
+    	startServer();
+    }
 
-        while (true) {
+	public void startServer() {
+		operateServer();
+	}
+
+	public void operateServer() {
+		ArrayList<String> data = getInput();
+
+		while (true) {
 			switch (Integer.parseInt(data.get(0))) {
 			case 1:
 				// Login
@@ -52,9 +101,16 @@ public class ClientHandler implements Runnable {
 				break;
 			}
 		}
-    }
+	}
 
-    public ArrayList<String> getInput() {
+	
+
+	/**
+	 * Receives data as a string from client and adds it to an array of String.
+	 * 
+	 * @return
+	 */
+	public ArrayList<String> getInput() {
 		while (true) {
 			try {
 				String input = socketIn.readLine();
@@ -67,9 +123,15 @@ public class ClientHandler implements Runnable {
 				System.exit(1);
 			}
 		}
-    }
-    
-    public void communicateWithClient(String message) {
+	}
+
+	/**
+	 * The purpose of this method is to communicate with the Client via string
+	 * messages to further process them.
+	 * 
+	 * @param message
+	 */
+	public void communicateWithClient(String message) {
 		socketOut.println(message);
 	}
 

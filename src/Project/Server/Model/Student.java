@@ -1,6 +1,7 @@
 package Project.Server.Model;
 
 import java.io.Serializable;
+import Project.Server.Model.Account;
 import java.util.ArrayList;
 
 public class Student implements Serializable{
@@ -9,9 +10,12 @@ public class Student implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String studentName;
+	private String studentFirstName;
+	private String studentLastName;
 	private int studentId;
+	private Account account;
 	private ArrayList<Registration> studentRegList;
+	
 
 	public ArrayList<Registration> getStudentRegList() {
 		return studentRegList;
@@ -20,16 +24,14 @@ public class Student implements Serializable{
 	public void setStudentRegList(ArrayList<Registration> studentRegList) {
 		this.studentRegList = studentRegList;
 	}
-
-	public Student(String studentName, int studentId) {
-		this.setStudentName(studentName);
+	public Student(int id, String firstName, String lastName, String username, String password) {
 		this.setStudentId(studentId);
+		this.setStudentFirstName(firstName);
+		this.setStudentLastName(lastName);
+		setAccount(new Account(username, password, Integer.toString(id)));
 		studentRegList = new ArrayList<Registration>();
 	}
 
-	public String getStudentName() {
-		return studentName;
-	}
 
 	public int getStudentId() {
 		return studentId;
@@ -39,13 +41,11 @@ public class Student implements Serializable{
 		this.studentId = studentId;
 	}
 
-	public void setStudentName(String studentName) {
-		this.studentName = studentName;
-	}
+
 
 	@Override
 	public String toString() {
-		String st = "Student Name: " + getStudentName() + "\n" + "Student Id: " + getStudentId() + "\n\n";
+		String st = "Student Name: " + getStudentFirstName() + " " + getStudentLastName() + "\n" + "Student Id: " + getStudentId() + "\n\n";
 		return st;
 	}
 
@@ -106,7 +106,7 @@ public class Student implements Serializable{
 	}
 
 	public String viewAllCourses() {
-		String s = "Student: " + getStudentName() + "\nCourses:\n";
+		String s = "Student: " + getStudentFirstName() + "\nCourses:\n";
 		for (int i = 0; i < studentRegList.size(); i++) {
 			s += studentRegList.get(i).viewAllCourses() + "\n";
 		}
@@ -119,6 +119,30 @@ public class Student implements Serializable{
 			return true;
 		}
 		return false;
+	}
+
+	public String getStudentFirstName() {
+		return studentFirstName;
+	}
+
+	public void setStudentFirstName(String studentFirstName) {
+		this.studentFirstName = studentFirstName;
+	}
+
+	public String getStudentLastName() {
+		return studentLastName;
+	}
+
+	public void setStudentLastName(String studentLastName) {
+		this.studentLastName = studentLastName;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }
