@@ -6,13 +6,34 @@ import java.io.IOException;
 import Project.Client.View.FrontEnd;
 import Project.Server.Model.Backend;
 
+/**
+ * The purpose of this class is to start up the client with the graphical user interface and respond to 
+ * commands activated by the user.
+ * 
+ * @author Muhammad Tariq, Haseeb Khan
+ * @version 1.0
+ * @since April 20, 2020
+ */
 public class GUIController {
+	/**
+	 * attribute for communication controller class
+	 */
 	private CommController communicator;
+	
+	/**
+	 * attribute for the frontend class
+	 */
 	private FrontEnd frontEnd;
 
+	/**
+	 * the constructor of this class. creates mouse events for the GUI 
+	 * and sets the communication controller and the front end to specified attributes.
+	 * @param communicator communication controller
+	 * @param frontEnd front end GUI
+	 */
 	public GUIController(CommController communicator, FrontEnd frontEnd) {
 		this.setCommunicator(communicator);
-		this.frontEnd = frontEnd;
+		this.setFrontEnd(frontEnd);
 
 		frontEnd.addSubmitLoginMouseClicked(new MouseAdapter() {
 			@Override
@@ -48,11 +69,19 @@ public class GUIController {
 
 		});
 	}
-
+	
+	/**
+	 * displays GUI using the frontend class
+	 */
 	public void runClient() {
-		frontEnd.displayGUI();
+		getFrontEnd().displayGUI();
 	}
 
+	/**
+	 * main function
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		CommController communicator;
 		FrontEnd frontEnd = null;
@@ -78,6 +107,14 @@ public class GUIController {
 
 	public void setCommunicator(CommController communicator) {
 		this.communicator = communicator;
+	}
+
+	public FrontEnd getFrontEnd() {
+		return frontEnd;
+	}
+
+	public void setFrontEnd(FrontEnd frontEnd) {
+		this.frontEnd = frontEnd;
 	}
 
 }

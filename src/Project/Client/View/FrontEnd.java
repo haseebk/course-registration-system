@@ -78,4 +78,11 @@ public class FrontEnd extends JFrame {
 	public void displayGUI() {
 		getMainFrame().setVisible(true);
 	}
+	public CourseCatalog getCourseCatalogPanel() {
+		return courseCatalogPanel;
+	}
+
+	public void setCourseCatalogPanel(CourseCatalog courseCatalogPanel) {
+		this.courseCatalogPanel = courseCatalogPanel;
+	}
 }

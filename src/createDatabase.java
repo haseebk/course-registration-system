@@ -134,8 +134,7 @@ public class createDatabase implements IDBCredentials {
 			pStatement.setInt(1, id);
 			pStatement.setString(2, courseName);
 			pStatement.setInt(3, courseID);
-			int rowCount = pStatement.executeUpdate();
-//			System.out.println("Row count = " + rowCount);
+			pStatement.executeUpdate();
 			pStatement.close();
 		} catch (SQLException e) {
 			System.out.println("Error: Unable to insert course to table!");
@@ -152,8 +151,7 @@ public class createDatabase implements IDBCredentials {
 			pStatement.setInt(3, courseID);
 			pStatement.setInt(4, sectionID);
 			pStatement.setInt(5, sectionCapacity);
-			int rowCount = pStatement.executeUpdate();
-//			System.out.println("Row count = " + rowCount);
+			pStatement.executeUpdate();
 			pStatement.close();
 		} catch (SQLException e) {
 			System.out.println("Error: Unable to insert course offering to table!");

@@ -9,20 +9,48 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import Project.Server.Model.Backend;
-
+/**
+ * The purpose of this class is to communicate with the Server. The attributes and methods help with this purpose and process the data.
+ * 
+ * @author Muhammad Tariq, Haseeb Khan
+ * @version 1.0
+ * @since April 20, 2020
+ */
 public class CommController {
-    private PrintWriter socketOut;
+
+	/**
+	 * output data stream socket
+	 */
+	private PrintWriter socketOut;
+	
+	/**
+	 * client socket
+	 */
 	private Socket aSocket;
-	private BufferedReader stdIn;
+
+	/**
+	 * input data stream socket
+	 */
 	private BufferedReader socketIn;
+
+	/**
+	 * input stream
+	 */
 	private InputStream oInputStream;
+
+	/**
+	 * object input stream
+	 */
 	private ObjectInputStream objectInputStream;
 
+	/**
+	 * This is this constructor. It creates data streams for all the sockets.
+	 * @param serverName name of the server
+	 * @param portNumber name of the port number
+	 */
 	public CommController(String serverName, int portNumber) {
 		try {
 			aSocket = new Socket(serverName, portNumber);
-			stdIn = new BufferedReader(new InputStreamReader(System.in));
 			socketIn = new BufferedReader(new InputStreamReader(aSocket.getInputStream()));
 			socketOut = new PrintWriter((aSocket.getOutputStream()), true);
 			oInputStream = aSocket.getInputStream();
@@ -33,12 +61,18 @@ public class CommController {
 		}
 	}
 
+	/**
+	 * the purpose of this method is to communicate with the server using string messages.
+	 * @param message
+	 */
 	public void communicate(String message)  {
 		socketOut.println(message);
 	}
 	
-	
-		
+	/**
+	 * the purpose of this method is to receive raw input.
+	 * @return
+	 */
 	public String recieveRawInput() {
 		try {
 			return socketIn.readLine();
@@ -49,6 +83,10 @@ public class CommController {
 		return "error!";
 	}
 
+	/**
+	 * the purpose of this method is to receive integer inputs by parsing the strings.
+	 * @return
+	 */
 	public int recieveIntegerInput() {
 		try {
 			return Integer.parseInt(socketIn.readLine().trim());
@@ -61,6 +99,10 @@ public class CommController {
 		return -1;
 	}
 
+	/**
+	 * the purpose of this method is to recieve data from the server as strings.
+	 * @return
+	 */
 	public ArrayList<String> getInput() {
 		while (true) {
 			try {
@@ -79,18 +121,34 @@ public class CommController {
 		}
 	}
 
+	/**
+	 * getter
+	 * @return
+	 */
 	public InputStream getoInputStream() {
 		return oInputStream;
 	}
 
+	/**
+	 * setter
+	 * @param oInputStream
+	 */
 	public void setoInputStream(InputStream oInputStream) {
 		this.oInputStream = oInputStream;
 	}
 
+	/**
+	 * getter
+	 * @return
+	 */
 	public ObjectInputStream getObjectInputStream() {
 		return objectInputStream;
 	}
 
+	/**
+	 * setter
+	 * @param objectInputStream
+	 */
 	public void setObjectInputStream(ObjectInputStream objectInputStream) {
 		this.objectInputStream = objectInputStream;
 	}

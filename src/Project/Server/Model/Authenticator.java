@@ -20,10 +20,10 @@ public class Authenticator implements Serializable {
 				if (currentStudent.getAccount().getPassword().compareTo(password) == 0) {
 					return currentStudent.getAccount();
 				} else {
-					System.out.println("Invalid password");
+//					System.out.println("Invalid password");
 				}
 			} else {
-				System.out.println("Invalid username and password");
+//				System.out.println("Invalid username and password");
 			}
 		}
 		return null;

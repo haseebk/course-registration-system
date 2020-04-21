@@ -15,11 +15,15 @@ import Project.Server.Controller.MySQLJDBC;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.SwingConstants;
 
 /**
+ * This class is responsible for creating a window that provides the users with
+ * options of course sections to choose from. It appropriately responds by
+ * adding the desired section to student courses if possible.
  * 
  * @author Haseeb Khan and Muhammad Tariq
  * @since April 5, 2020
@@ -42,6 +46,8 @@ public class ChooseSection extends JFrame {
 	private String lastName;
 	private String firstName;
 	private Backend backend;
+	private String success;
+
 
 	/**
 	 * Launch the application.
@@ -63,9 +69,9 @@ public class ChooseSection extends JFrame {
 	/**
 	 * Create the frame.
 	 * 
-	 * @param lastName
-	 * @param firstName
-	 * @param result
+	 * @param lastName  last name of student
+	 * @param firstName first name of student
+	 * @param result    course
 	 */
 	public ChooseSection(Backend backend, int choices, Course result, String firstName, String lastName) {
 		this.choices = choices;
@@ -73,7 +79,8 @@ public class ChooseSection extends JFrame {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.backend = backend;
-		System.out.println(choices);
+
+		// CREATE SELECT COURSE SECTION TITLE
 		setTitle("Select course section");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 200);
@@ -84,21 +91,21 @@ public class ChooseSection extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 
+		// CREATE SECTION NUMBER LABELS
 		JLabel section3Label = new JLabel("3");
 		section3Label.setForeground(Color.WHITE);
 		section3Label.setHorizontalAlignment(SwingConstants.CENTER);
 		section3Label.setFont(new Font("Arial", Font.BOLD, 16));
-
 		JLabel section2Label = new JLabel("2");
 		section2Label.setForeground(Color.WHITE);
 		section2Label.setHorizontalAlignment(SwingConstants.CENTER);
 		section2Label.setFont(new Font("Arial", Font.BOLD, 16));
-
 		JLabel section1Label = new JLabel("1");
 		section1Label.setHorizontalAlignment(SwingConstants.CENTER);
 		section1Label.setFont(new Font("Arial", Font.BOLD, 16));
 		section1Label.setForeground(Color.WHITE);
 
+		// CREATE SELECTION CARDS WITH MOUSEEVENT LISTENERS
 		JLabel choiceA = new JLabel("");
 		choiceA.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		choiceA.setIcon(new ImageIcon(ChooseSection.class.getResource("/sectionChoiceCard.png")));
@@ -111,6 +118,15 @@ public class ChooseSection extends JFrame {
 						result.getCourseNum()) == false) {
 					reader.insertStudentCourseData(firstName, lastName, result.getCourseName(), result.getCourseNum(),
 							1);
+					setSuccess("Successfully added course!");
+
+					System.out.println("Successfully added course!");
+					try {
+						reader.importStudentCourseData(backend);
+					} catch (SQLException e1) {
+						System.out.println("Already enrolled");
+						e1.printStackTrace();
+					}
 				} else {
 					System.out.println("Already enrolled");
 				}
@@ -118,7 +134,6 @@ public class ChooseSection extends JFrame {
 				dispose();
 			}
 		});
-
 		JLabel choiceB = new JLabel("");
 		choiceB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		choiceB.setIcon(new ImageIcon(ChooseSection.class.getResource("/sectionChoiceCard.png")));
@@ -131,6 +146,15 @@ public class ChooseSection extends JFrame {
 						result.getCourseNum()) == false) {
 					reader.insertStudentCourseData(firstName, lastName, result.getCourseName(), result.getCourseNum(),
 							2);
+					setSuccess("Successfully added course!");
+					System.out.println("Successfully added course!");
+
+					try {
+						reader.importStudentCourseData(backend);
+					} catch (SQLException e1) {
+						System.out.println("Already enrolled");
+						e1.printStackTrace();
+					}
 				} else {
 					System.out.println("Already enrolled");
 				}
@@ -138,7 +162,6 @@ public class ChooseSection extends JFrame {
 				dispose();
 			}
 		});
-
 		JLabel choiceC = new JLabel("");
 		choiceC.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		choiceC.setIcon(new ImageIcon(ChooseSection.class.getResource("/sectionChoiceCard.png")));
@@ -151,6 +174,16 @@ public class ChooseSection extends JFrame {
 						result.getCourseNum()) == false) {
 					reader.insertStudentCourseData(firstName, lastName, result.getCourseName(), result.getCourseNum(),
 							3);
+					setSuccess("Successfully added course!");
+
+					System.out.println("Successfully added course!");
+
+					try {
+						reader.importStudentCourseData(backend);
+					} catch (SQLException e1) {
+						System.out.println("Already enrolled");
+						e1.printStackTrace();
+					}
 				} else {
 					System.out.println("Already enrolled");
 				}
@@ -159,6 +192,7 @@ public class ChooseSection extends JFrame {
 			}
 		});
 
+		// CREATE CANCEL BUTTON
 		JLabel cancelButton = new JLabel("");
 		cancelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cancelButton.setIcon(new ImageIcon(ChooseSection.class.getResource("/cancelButton.png")));
@@ -171,24 +205,24 @@ public class ChooseSection extends JFrame {
 		cancelButton.setBounds(153, 123, 78, 30);
 		contentPane.add(cancelButton);
 
+		// CREATE SECTION SEAT NUMBER LABELS
 		JLabel section1SeatLabel = new JLabel(Integer.toString(result.getCourseOfferingAt(1).getSecCap()) + " Seats");
 		section1SeatLabel.setForeground(Color.WHITE);
 		section1SeatLabel.setFont(new Font("Arial", Font.BOLD, 13));
 		section1SeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		section1SeatLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
 		JLabel section2SeatLabel = new JLabel(Integer.toString(result.getCourseOfferingAt(2).getSecCap()) + " Seats");
 		section2SeatLabel.setForeground(Color.WHITE);
 		section2SeatLabel.setFont(new Font("Arial", Font.BOLD, 13));
 		section2SeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		section2SeatLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
 		JLabel section3SeatLabel = new JLabel("");
 		section3SeatLabel.setForeground(Color.WHITE);
 		section3SeatLabel.setFont(new Font("Arial", Font.BOLD, 13));
 		section3SeatLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		section3SeatLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+		// LOGIC FOR CHOOSING HOW MANY CARDS TO DISPLAY
 		if (choices == 1) {
 			choiceA.setBounds(153, 30, 78, 82);
 			contentPane.add(choiceA);
@@ -216,7 +250,6 @@ public class ChooseSection extends JFrame {
 			choiceB.setBounds(241, 30, 78, 82);
 			contentPane.add(choiceB);
 			revalidate();
-
 		} else if (choices == 3) {
 			section1Label.setBounds(74, 52, 9, 14);
 			contentPane.add(section1Label);
@@ -242,5 +275,13 @@ public class ChooseSection extends JFrame {
 
 			revalidate();
 		}
+	}
+
+	public String getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(String success) {
+		this.success = success;
 	}
 }

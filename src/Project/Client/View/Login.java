@@ -55,7 +55,7 @@ public class Login extends JPanel {
 	 * Create the panel.
 	 * @param frame frame that the panel is being placed onto 
 	 * @param backend backend to obtain information and apply logic
-	 * @param auth 
+	 * @param auth authorizer
 	 */
 	public Login(JFrame frame, Backend backend, Authenticator auth) {
 		setLayout(null);

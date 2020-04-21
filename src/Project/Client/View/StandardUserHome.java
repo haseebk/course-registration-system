@@ -36,8 +36,8 @@ public class StandardUserHome extends JPanel {
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
-	 * @param auth 
-	 * @param acc 
+	 * @param auth authorizer
+	 * @param acc student account
 	 */
 	public StandardUserHome(JFrame frame, Backend backend, Authenticator auth, Account acc) {
 		setLayout(null);

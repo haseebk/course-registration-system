@@ -50,8 +50,8 @@ public class CourseCatalog extends JPanel {
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
-	 * @param auth
-	 * @param acc
+	 * @param auth authorizer
+	 * @param acc student account
 	 */
 	public CourseCatalog(JFrame frame, Backend backend, Authenticator auth, Account acc) {
 		setLayout(null);
@@ -139,8 +139,6 @@ public class CourseCatalog extends JPanel {
 					choiceWindow = new ChooseSection(backend, result.getNumberOfOfferings(), result, firstName,
 							lastName);
 					choiceWindow.insertWindow();
-					System.out.println(
-							result.getOfferingList().toString().replace("[", "").replace("]", "").replace(",", ""));
 
 				} else {
 					JOptionPane.showMessageDialog(null,
@@ -270,7 +268,6 @@ public class CourseCatalog extends JPanel {
 		DefaultListModel<String> theList = new DefaultListModel<>();
 
 		for (Course course : backend.getCatalog().getCourseList()) {
-//			String s = course.toString();
 			String name = course.getCourseName().trim();
 			String num = Integer.toString(course.getCourseNum());
 			String s = name + " " + num;
@@ -278,5 +275,11 @@ public class CourseCatalog extends JPanel {
 		}
 		return theList;
 	}
+	public ChooseSection getChoiceWindow() {
+		return choiceWindow;
+	}
 
+	public void setChoiceWindow(ChooseSection choiceWindow) {
+		this.choiceWindow = choiceWindow;
+	}
 }

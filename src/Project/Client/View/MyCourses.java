@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.Cursor;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Project.Server.Controller.MySQLJDBC;
 import Project.Server.Model.Account;
 import Project.Server.Model.Authenticator;
 import Project.Server.Model.Backend;
@@ -28,6 +30,7 @@ import Project.Server.Model.Course;
 import Project.Server.Model.Registration;
 
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 /**
  * This class runs the user's Courses panel view. It displays the courses that
@@ -53,8 +56,8 @@ public class MyCourses extends JPanel {
 	 * 
 	 * @param frame   frame that the panel is being placed onto
 	 * @param backend backend to obtain information and apply logic
-	 * @param auth
-	 * @param acc
+	 * @param auth    authorizer
+	 * @param acc     student account
 	 */
 	public MyCourses(JFrame frame, Backend backend, Authenticator auth, Account acc) {
 		setLayout(null);
@@ -69,6 +72,45 @@ public class MyCourses extends JPanel {
 		if (acc != null) {
 			welcomeUserLabel.setText("Hello, " + backend.getStudent(acc.getStudentId()).getStudentFirstName() + "!");
 		}
+
+		// CREATE REMOVE COURSE BUTTON
+		JLabel removeCourseButton = new JLabel("");
+		removeCourseButton.setHorizontalAlignment(SwingConstants.CENTER);
+		removeCourseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		removeCourseButton.setIcon(new ImageIcon(MyCourses.class.getResource("/removeCourseButton.png")));
+		removeCourseButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String selectedCourse = (String) list.getSelectedValue();
+				if (selectedCourse != null) {
+					String[] courseDetail = selectedCourse.split(" ");
+					String firstName = backend.getStudent(acc.getStudentId()).getStudentFirstName();
+					String lastName = backend.getStudent(acc.getStudentId()).getStudentLastName();
+					String courseName = courseDetail[0].trim();
+					int courseNum = Integer.parseInt(courseDetail[1]);
+					Course result = backend.getCatalog().searchCat(courseName, courseNum);
+					MySQLJDBC reader = new MySQLJDBC();
+					reader.initializeConnection();
+					reader.removeStudentCourseData(firstName, lastName, result.getCourseName(), result.getCourseNum());
+					backend.getStudent(firstName,lastName).getStudentRegList().clear();
+					try {
+						reader.importStudentCourseData(backend);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					reader.closeConnection();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"\nAn error occurred! Please make sure you have selected a course to remove.", " Warning",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+				MyCourses myCoursesPanel = new MyCourses(frame, backend, auth, acc);
+				frame.setContentPane(myCoursesPanel);
+				frame.revalidate();
+			}
+		});
+		removeCourseButton.setBounds(998, 318, 96, 36);
+		add(removeCourseButton);
 		welcomeUserLabel.setBounds(90, 29, 278, 51);
 		add(welcomeUserLabel);
 
@@ -165,14 +207,6 @@ public class MyCourses extends JPanel {
 		add(backButton);
 
 		// CREATE SCROLLABLE LIST OF COURSES IN CATALOG
-//		DefaultListModel<String> theList = new DefaultListModel<String>();
-//		if (acc != null) {
-//			for (Registration registration : backend.getStudent(acc.getStudentId()).getStudentRegList()) {
-//				theList.addElement(registration.getTheOffering().getTheCourse().toString());
-//			}
-//		}
-//		JList<String> list = new JList<String>(theList);
-//		list.setBorder(new MatteBorder(0, 5, 0, 0, (Color) new Color(255, 0, 0)));
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(400, 177, 568, 480);
 		scrollPane.setVisible(true);

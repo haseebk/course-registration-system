@@ -4,6 +4,13 @@ import Project.Server.Model.Backend;
 
 import java.sql.*;
 
+/**
+ * This class is responsible for interacting with the SQL database. It has
+ * various functions to write to and import data from the database.
+ * 
+ * @author Haseeb Khan and Muhammad Tariq
+ *
+ */
 public class MySQLJDBC implements IDBCredentials {
 
 	// Attributes
@@ -37,13 +44,15 @@ public class MySQLJDBC implements IDBCredentials {
 			importCourseData(backend);
 			importCourseOfferingData(backend);
 			importStudentCourseData(backend);
+			System.err.println("This is being run multiple times!");
+
 		} catch (SQLException e) {
 			System.err.println("Error: Unable to import data!");
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
-	
+
 	public void insertStudentUser(int id, String firstName, String lastName, String userName, String password) {
 		try {
 			String query = "INSERT INTO STUDENT (ID, first_name , last_name, user_name, pass_word) values(?,?,?,?,?)";
@@ -76,16 +85,17 @@ public class MySQLJDBC implements IDBCredentials {
 		System.out.println("Course removed.");
 	}
 
-	public void insertStudentCourseData(String firstName, String lastName, String courseName, int courseID, int sectionID) {
+	public void insertStudentCourseData(String firstName, String lastName, String courseName, int courseID,
+			int sectionID) {
 		try {
 			String query = "INSERT INTO student_courses (ID, first_name, last_name, course_name, course_id, section_id) values(?,?,?,?,?,?)";
 			PreparedStatement pStatement = dbConnection.prepareStatement(query);
-			pStatement.setString(1, firstName+lastName+courseName+courseID);
+			pStatement.setString(1, firstName + lastName + courseName + courseID);
 			pStatement.setString(2, firstName);
 			pStatement.setString(3, lastName);
 			pStatement.setString(4, courseName);
 			pStatement.setInt(5, courseID);
-			pStatement.setInt(6,  sectionID);
+			pStatement.setInt(6, sectionID);
 			pStatement.executeUpdate();
 			pStatement.close();
 		} catch (SQLException e) {
@@ -98,6 +108,8 @@ public class MySQLJDBC implements IDBCredentials {
 		Statement statement = dbConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery("select * from course_offering");
 
+//		backend.getCatalog().getCourseList().clear();
+
 		while (resultSet.next()) {
 			backend.addCourseOffering(resultSet.getString("course_name"), resultSet.getInt("course_id"),
 					resultSet.getInt("section_id"), resultSet.getInt("section_capacity"));
@@ -105,7 +117,7 @@ public class MySQLJDBC implements IDBCredentials {
 
 	}
 
-	private void importStudentData(Backend backend) throws SQLException {
+	public void importStudentData(Backend backend) throws SQLException {
 		Statement statement = dbConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery("select * from student");
 
@@ -120,17 +132,19 @@ public class MySQLJDBC implements IDBCredentials {
 	private void importCourseData(Backend backend) throws SQLException {
 		Statement statement = dbConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery("select * from course");
+		backend.getCatalog().getCourseList().clear();
 
 		while (resultSet.next()) {
 			backend.addCourse(resultSet.getString("course_name"), resultSet.getInt("course_id"));
 		}
 	}
 
-	private void importStudentCourseData(Backend backend) throws SQLException {
+	public void importStudentCourseData(Backend backend) throws SQLException {
 		Statement statement = dbConnection.createStatement();
 		ResultSet resultSet = statement.executeQuery("select * from student_courses");
 
 		while (resultSet.next()) {
+
 			backend.addCourse(resultSet.getString("first_name"), resultSet.getString("last_name"),
 					resultSet.getString("course_name"), resultSet.getInt("course_ID"), resultSet.getInt("section_ID"));
 		}

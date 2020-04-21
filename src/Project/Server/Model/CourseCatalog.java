@@ -23,11 +23,13 @@ public class CourseCatalog implements Serializable {
 		this.courseList = courseList;
 	}
 
-	public void createCourseOffering(Course c, int secNum, int secCap) {
-		if (c != null) {
-			CourseOffering theOffering = new CourseOffering(secNum, secCap);
-			c.addOffering(theOffering);
-		}
+	public void createCourseOffering(Course course, int secNum, int secCap) {
+		if (course != null) {
+			CourseOffering offering = new CourseOffering(secNum, secCap);
+			if (course.getOfferingList().contains(offering) == false) {
+					course.addOffering(offering);									
+			}
+		}		
 	}
 
 	public Course searchCat(String courseName, int courseNum) {
@@ -65,6 +67,9 @@ public class CourseCatalog implements Serializable {
 	}
 
 	public void addCourse(String courseName, int courseID) {
-		courseList.add(new Course(courseName, courseID));
+		Course course = new Course(courseName, courseID);
+		if (courseList.contains(course) == false) {
+			courseList.add(course);
+		}
 	}
 }

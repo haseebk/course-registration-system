@@ -24,7 +24,7 @@ public class Account implements Serializable {
 		return false;
 	}
 	public static boolean validatePassword(String password) {
-		if (password.length() >= 5) {
+		if (password.length() >= 4) {
 			return true;
 		}
 		return false;
