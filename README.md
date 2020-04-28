@@ -12,11 +12,3 @@ This project aims to help gain experience with designing and developing a relati
 
 First run the createDatabase.java file. Then run the server using ServerCommController.java. Then run 
 clients using GUIController.java.
-
-
-
-## References
-
-Any references made will be updated here
-
-
