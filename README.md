@@ -1,6 +1,6 @@
 # Student Course Registration Application
 
-This repository has been created for the final project of ENSF 409 W2020 by Haseeb Khan and Muhammad Tariq
+This repository has been created for the final project of ENSF 409 W2020 by Haseeb Khan and Muhammad Tariq (@mhtariq3)
 
 This project aims to help gain experience with designing and developing a relatively large software project. Some practical concepts explored include object-oriented design and development, client-server architectures, multithreading, JDBC, and GUI. This project specifically is a course registration system. 
 
